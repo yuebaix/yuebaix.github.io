@@ -93,11 +93,31 @@ Friday, October 1, 2021
 <div class="col-lg-11 col-lg-offset-1
 col-md-10 col-md-offset-1
 post-container">
+<p>项目地址：<a href=https://github.com/yuebaix/jiuzhou>jiuzhou (九州) https://github.com/yuebaix/jiuzhou</a></p>
 <h2 id=一背景目标>一、背景目标</h2>
+<p>之前构建的 spring cloud 集群版本已经比较老了，现在spring cloud已经更新了 G、H、2020 系列版本。现重新构建一个典型集群用于示意spring cloud的典型架构，并尝试一些新特性。</p>
 <h2 id=二知识准备>二、知识准备</h2>
+<p>由于个人搭建集群，用单机模拟集群，受搭建环境限制与便于分发，要使用到docker-compose来构建本地环境，需要准备的知识如下：</p>
+<ul>
+<li>docker</li>
+<li>spring cloud</li>
+<li>zookeeper</li>
+<li>ctrip apollo</li>
+<li>xxljob</li>
+<li>uaa oauth2</li>
+</ul>
 <h2 id=三系统设计>三、系统设计</h2>
+<p>系统服务分层：sys、svc、app</p>
+<p>单服务应用代码分层：dao、service、scene、controller</p>
+<p>单服务应用功能分层：job、admin、svc、client、api</p>
 <h2 id=四实施步骤>四、实施步骤</h2>
-<h2 id=五今日完成>五、今日完成</h2>
+<ul>
+<li>1.安装环境</li>
+<li>2.搭建中间件</li>
+<li>3.对接服务注册、配置中心</li>
+<li>4.构建网关、在线文档集中</li>
+<li>5.构建授权中心、各节点接入</li>
+</ul>
 <hr>
 <ul class=pager>
 <li class=previous>
