@@ -1,0 +1,309 @@
+<!doctype html><html lang=zh-cn>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta property="og:site_name" content="月白 Yuebaix Blog">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://blog.yuebaix.com/img/home-bg-jeep.jpg">
+<meta property="twitter:image" content="https://blog.yuebaix.com/img/home-bg-jeep.jpg">
+<meta name=title content="七天构建SpringCloud集群">
+<meta property="og:title" content="七天构建SpringCloud集群">
+<meta property="twitter:title" content="七天构建SpringCloud集群">
+<meta name=description content="用docker-compose完成中间件搭建">
+<meta property="og:description" content="用docker-compose完成中间件搭建">
+<meta property="twitter:description" content="用docker-compose完成中间件搭建">
+<meta property="twitter:card" content="summary">
+<meta name=keyword content="月白, yuebaix, Yuebaix, , 月白的博客, Yuebaix Blog, 博客, 个人网站, 互联网, Web, Spring, Springboot, Spring Cloud, Webflux, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
+<link rel="shortcut icon" href=/img/favicon.ico>
+<title>七天构建SpringCloud集群-月白的博客 | Yuebaix Blog</title>
+<link rel=canonical href=/2021/10/02/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/>
+<link rel=stylesheet href=/css/iDisqus.min.css>
+<link rel=stylesheet href=/css/bootstrap.min.css>
+<link rel=stylesheet href=/css/hux-blog.min.css>
+<link rel=stylesheet href=/css/zanshang.css>
+<link href=//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css rel=stylesheet type=text/css>
+<script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js></script>
+<script src=/js/hux-blog.min.js></script>
+</head>
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+<div class=container-fluid>
+<div class="navbar-header page-scroll">
+<button type=button class=navbar-toggle>
+<span class=sr-only>Toggle navigation</span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+<span class=icon-bar></span>
+</button>
+<a class=navbar-brand href=/>月白 Yuebaix Blog</a>
+</div>
+<div id=huxblog_navbar>
+<div class=navbar-collapse>
+<ul class="nav navbar-nav navbar-right">
+<li>
+<a href=/>Home</a>
+</li>
+<li>
+<a href=/categories/life>life</a>
+</li>
+<li>
+<a href=/categories/tech>tech</a>
+</li>
+<li><a href=/top/archive/>ARCHIVE</a></li>
+<li><a href=/top/links/>LINKS</a></li>
+<li><a href=/top/books/>BOOKS</a></li>
+<li><a href=/top/about/>ABOUT</a></li>
+</ul>
+</div>
+</div>
+</div>
+</nav>
+<script>var $body=document.body,$toggle=document.querySelector('.navbar-toggle'),$navbar=document.querySelector('#huxblog_navbar'),$collapse=document.querySelector('.navbar-collapse');$toggle.addEventListener('click',handleMagic);function handleMagic(a){$navbar.className.indexOf('in')>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf('in')<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script>
+<style type=text/css>header.intro-header{background-image:url(/img/home-bg-jeep.jpg)}</style>
+<header class=intro-header>
+<div class=container>
+<div class=row>
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<div class=post-heading>
+<div class=tags>
+<a class=tag href=/tags/%E5%B9%B2%E8%B4%A7 title=干货>
+干货
+</a>
+<a class=tag href=/tags/%E6%95%99%E7%A8%8B title=教程>
+教程
+</a>
+</div>
+<h1>七天构建SpringCloud集群</h1>
+<h2 class=subheading>day2：基础设施搭建</h2>
+<span class=meta>
+Posted by
+月白
+on
+Saturday, October 2, 2021
+</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<article>
+<div class=container>
+<div class=row>
+<div class="col-lg-11 col-lg-offset-1
+col-md-10 col-md-offset-1
+post-container">
+<h2 id=一安装-docker-desktop>一、安装 Docker Desktop</h2>
+<p>创建桥接子网</p>
+<blockquote>
+<p>docker network create -d bridge &ndash;subnet=172.18.0.0/16 &ndash;gateway 172.18.0.1 inner-network</p>
+</blockquote>
+<h2 id=二配置文件>二、配置文件</h2>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#ff79c6>version</span>: <span style=color:#f1fa8c>&#39;3.1&#39;</span>
+
+<span style=color:#ff79c6>services</span>:
+
+  <span style=color:#ff79c6>mysql</span>:
+    <span style=color:#ff79c6>image</span>: mysql:5.7.35
+    <span style=color:#ff79c6>command</span>: --transaction-isolation=READ-COMMITTED --binlog-format=ROW --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    <span style=color:#ff79c6>restart</span>: always
+    <span style=color:#ff79c6>container_name</span>: mysql
+    <span style=color:#ff79c6>dns</span>:
+      - <span style=color:#bd93f9>119.29.29.29</span>
+      - <span style=color:#bd93f9>114.114.114.114</span>
+      - <span style=color:#bd93f9>8.8.8.8</span>
+    <span style=color:#ff79c6>networks</span>:
+      <span style=color:#ff79c6>default</span>:
+        <span style=color:#ff79c6>ipv4_address</span>: <span style=color:#bd93f9>172.18.0.2</span>
+    <span style=color:#ff79c6>ports</span>:
+      - <span style=color:#f1fa8c>&#34;13306:3306&#34;</span>
+    <span style=color:#ff79c6>volumes</span>:
+      - E:\jiuzhou\volumes\mysql\config:/etc/mysql/conf.d
+      - E:\jiuzhou\volumes\mysql\data:/var/lib/mysql
+      - E:\jiuzhou\volumes\mysql\initsql:/docker-entrypoint-initdb.d
+    <span style=color:#ff79c6>environment</span>:
+<span style=color:#6272a4>#      MYSQL_ROOT_PASSWORD: &#39;yuebaix&#39;</span>
+      <span style=color:#ff79c6>MYSQL_ALLOW_EMPTY_PASSWORD</span>: <span style=color:#f1fa8c>&#39;yes&#39;</span>
+      <span style=color:#ff79c6>TZ</span>: Asia/Shanghai
+
+  <span style=color:#ff79c6>zk</span>:
+    <span style=color:#ff79c6>image</span>: zookeeper:3.7.0
+    <span style=color:#ff79c6>restart</span>: always
+    <span style=color:#ff79c6>container_name</span>: zk
+    <span style=color:#ff79c6>hostname</span>: zk
+    <span style=color:#ff79c6>dns</span>:
+      - <span style=color:#bd93f9>119.29.29.29</span>
+      - <span style=color:#bd93f9>114.114.114.114</span>
+      - <span style=color:#bd93f9>8.8.8.8</span>
+    <span style=color:#ff79c6>networks</span>:
+      <span style=color:#ff79c6>default</span>:
+        <span style=color:#ff79c6>ipv4_address</span>: <span style=color:#bd93f9>172.18.0.11</span>
+    <span style=color:#ff79c6>ports</span>:
+      - <span style=color:#f1fa8c>&#34;12181:2181&#34;</span>
+<span style=color:#6272a4>#      - &#34;11011:8080&#34;</span>
+    <span style=color:#ff79c6>volumes</span>:
+      - E:\jiuzhou\volumes\zk\data:/data
+      - E:\jiuzhou\volumes\zk\datalog:/datalog
+      - E:\jiuzhou\volumes\zk\logs:/logs
+    <span style=color:#ff79c6>environment</span>:
+      <span style=color:#ff79c6>ZOO_STANDALONE_ENABLED</span>: <span style=color:#f1fa8c>&#39;true&#39;</span>
+      <span style=color:#ff79c6>ZOO_ADMINSERVER_ENABLED</span>: <span style=color:#f1fa8c>&#39;false&#39;</span>
+
+  <span style=color:#ff79c6>apollo-quick-start</span>:
+    <span style=color:#ff79c6>image</span>: yuebaix/apollo-quick-start
+    <span style=color:#ff79c6>container_name</span>: apollo-quick-start
+    <span style=color:#ff79c6>dns</span>:
+      - <span style=color:#bd93f9>119.29.29.29</span>
+      - <span style=color:#bd93f9>114.114.114.114</span>
+      - <span style=color:#bd93f9>8.8.8.8</span>
+    <span style=color:#ff79c6>networks</span>:
+      <span style=color:#ff79c6>default</span>:
+        <span style=color:#ff79c6>ipv4_address</span>: <span style=color:#bd93f9>172.18.0.21</span>
+    <span style=color:#ff79c6>ports</span>:
+      - <span style=color:#f1fa8c>&#34;11021:8080&#34;</span>
+      - <span style=color:#f1fa8c>&#34;11022:8090&#34;</span>
+      - <span style=color:#f1fa8c>&#34;11023:8070&#34;</span>
+    <span style=color:#ff79c6>environment</span>:
+      <span style=color:#ff79c6>JAVA_OPTS</span>: <span style=color:#f1fa8c>&#39;-Xms100m -Xmx1000m -Xmn100m -Xss256k -XX:MetaspaceSize=10m -XX:MaxMetaspaceSize=250m&#39;</span>
+    <span style=color:#ff79c6>depends_on</span>:
+      - mysql
+    <span style=color:#ff79c6>links</span>:
+      - mysql:apollo-db
+
+  <span style=color:#ff79c6>xxl</span>:
+    <span style=color:#ff79c6>image</span>: xuxueli/xxl-job-admin:2.3.0
+    <span style=color:#ff79c6>restart</span>: always
+    <span style=color:#ff79c6>container_name</span>: xxl
+    <span style=color:#ff79c6>dns</span>:
+      - <span style=color:#bd93f9>119.29.29.29</span>
+      - <span style=color:#bd93f9>114.114.114.114</span>
+      - <span style=color:#bd93f9>8.8.8.8</span>
+    <span style=color:#ff79c6>networks</span>:
+      <span style=color:#ff79c6>default</span>:
+        <span style=color:#ff79c6>ipv4_address</span>: <span style=color:#bd93f9>172.18.0.31</span>
+    <span style=color:#ff79c6>ports</span>:
+      - <span style=color:#f1fa8c>&#34;11031:8080&#34;</span>
+    <span style=color:#ff79c6>volumes</span>:
+      - E:\jiuzhou\volumes\xxl\applogs:/data/applogs
+    <span style=color:#ff79c6>environment</span>:
+      <span style=color:#ff79c6>PARAMS</span>: |<span style=color:#f1fa8c>
+</span><span style=color:#f1fa8c>        --spring.datasource.url=jdbc:mysql://mysql:3306/xxl_job?useUnicode=true&amp;characterEncoding=UTF-8&amp;autoReconnect=true&amp;serverTimezone=Asia/Shanghai
+</span><span style=color:#f1fa8c>        --spring.datasource.username=root
+</span><span style=color:#f1fa8c>        --spring.datasource.password=</span>        
+    <span style=color:#ff79c6>depends_on</span>:
+      - mysql
+    <span style=color:#ff79c6>links</span>:
+      - mysql
+
+<span style=color:#ff79c6>networks</span>:
+  <span style=color:#ff79c6>default</span>:
+    <span style=color:#ff79c6>external</span>:
+      <span style=color:#ff79c6>name</span>: inner-network
+</code></pre></div><h2 id=三常用命令>三、常用命令</h2>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>docker build -t image-name .
+docker-compose -f docker-compose.yml up
+
+docker tag origin-image-name tag-image-name
+docker push tag-image-name
+
+docker pull tag-image-name
+
+docker run -it image-name /bin/bash
+docker <span style=color:#8be9fd;font-style:italic>exec</span> -it container-name /bin/bash
+docker cp container-name:/path .
+</code></pre></div><h2 id=四比较折腾>四、比较折腾</h2>
+<h3 id=1c盘爆了>1.C盘爆了</h3>
+<blockquote>
+<p>不经常用家里的电脑进行开发，而且本身C盘容量已经很小了，只剩6个G，一边开发一边监控硬盘大小，最终将gradle跟maven的本地缓存配置到其他盘，暂时缓解这个问题。</p>
+</blockquote>
+<h3 id=2c盘又爆了>2.C盘又爆了</h3>
+<blockquote>
+<p>准备用docker搭建集群，结果因为docker desktop升级了wsl2，配置本地路径的配置没了，本地镜像与运行时文件，都挤在C盘，最终决定把后面一个盘的空间
+释放出来，合并到C盘，中间备份分类文件，安装启动U盘，各种费力。</p>
+</blockquote>
+<h3 id=3内存爆了>3.内存爆了</h3>
+<blockquote>
+<p>最后C盘扩充了80个G，应该够用很长时间了。在叠加中间件的时候发现win的linux虚拟机内存占用很高，加上idea一下子什么都不干4个G没了，操作系统启动也得2个G。
+apollo耗费内存接近2个G，于是决定优化一下JVM启动参数。官方快速启动的镜像不支持环境变量调整启动参数，决定拉下代码来，自己改一把。</p>
+</blockquote>
+<h3 id=4被换行符坑了>4.被换行符坑了</h3>
+<blockquote>
+<p>本来很简单的一个功能，感觉做起来也不复杂。结果就是各种运行报错，最终定位到是换行符的问题。idea导入文件按照操作系统直接给改成CRLF了，改完配置为LF，
+重新run一遍通过。这事很蛋疼，一个是因为idea自动按操作系统给你转很蛋疼，一个是alpine里换行符会造成shell执行不下去，果然开发只能用mac。改完了顺道
+给宋顺大佬提了个PR，看看会不会合，别人再蛋疼一遍也没啥意义。</p>
+</blockquote>
+<hr>
+<ul class=pager>
+<li class=previous>
+<a href=/2021/10/01/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/ data-toggle=tooltip data-placement=top title=七天构建SpringCloud集群>&larr;
+Previous Post</a>
+</li>
+</ul>
+<div id=disqus-comment></div>
+</div>
+<div class="col-lg-11 col-lg-offset-1
+col-md-10 col-md-offset-1
+sidebar-container">
+<section>
+<hr class="hidden-sm hidden-xs">
+<h5><a href=/tags/>FEATURED TAGS</a></h5>
+<div class=tags>
+<a href=/tags/%E4%BC%A0%E5%A5%87 title=传奇>
+传奇
+</a>
+<a href=/tags/%E5%B9%B2%E8%B4%A7 title=干货>
+干货
+</a>
+<a href=/tags/%E6%84%9F%E6%82%9F title=感悟>
+感悟
+</a>
+<a href=/tags/%E6%95%99%E7%A8%8B title=教程>
+教程
+</a>
+</div>
+</section>
+<section>
+<hr>
+<h5>FRIENDS</h5>
+<ul class=list-inline>
+<li><a target=_blank href=https://yloopdaed.icu/>yloopdaed的博客</a></li>
+</ul>
+</section>
+</div>
+</div>
+</div>
+</article>
+<footer>
+<div class=container>
+<div class=row>
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+<ul class="list-inline text-center">
+<li>
+<a href=mailto:yuebaix@outlook.com>
+<span class="fa-stack fa-lg">
+<i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+</span>
+</a>
+</li>
+<li>
+<a target=_blank href=https://github.com/yuebaix>
+<span class="fa-stack fa-lg">
+<i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i>
+</span>
+</a>
+</li>
+</ul>
+<p class="copyright text-muted">
+Copyright &copy; 月白 Yuebaix Blog 2021
+</p>
+</div>
+</div>
+</div>
+</footer>
+<script>function loadAsync(f,b){var c=document,d='script',a=c.createElement(d),e=c.getElementsByTagName(d)[0];a.src=f,b&&a.addEventListener('load',function(a){b(null,a)},!1),e.parentNode.insertBefore(a,e)}</script>
+<script>$('#tag_cloud').length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:'#bbbbee',end:'#0085a1'}},$('#tag_cloud a').tagcloud()})</script>
+<script>loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js",function(){var a=document.querySelector("nav");a&&FastClick.attach(a)})</script>
+</body>
+</html>
