@@ -10,9 +10,9 @@
 <meta name=title content="七天构建SpringCloud集群">
 <meta property="og:title" content="七天构建SpringCloud集群">
 <meta property="twitter:title" content="七天构建SpringCloud集群">
-<meta name=description content="月白，程序员, 开源爱好者，生活探险家 | 这里是 月白 的博客，与你一起发现更大的世界。">
-<meta property="og:description" content="月白，程序员, 开源爱好者，生活探险家 | 这里是 月白 的博客，与你一起发现更大的世界。">
-<meta property="twitter:description" content="月白，程序员, 开源爱好者，生活探险家 | 这里是 月白 的博客，与你一起发现更大的世界。">
+<meta name=description content="服务注册、在线文档">
+<meta property="og:description" content="服务注册、在线文档">
+<meta property="twitter:description" content="服务注册、在线文档">
 <meta property="twitter:card" content="summary">
 <meta name=keyword content="月白, yuebaix, Yuebaix, , 月白的博客, Yuebaix Blog, 博客, 个人网站, 互联网, Web, Spring, Springboot, Spring Cloud, Webflux, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
 <link rel="shortcut icon" href=/img/favicon.ico>
@@ -146,6 +146,48 @@ server.port=12201
 <img src=/pic/2021_10_03/registry_json.png alt>
 </p>
 <h2 id=二完成swagger文档功能>二、完成swagger文档功能</h2>
+<p>1.添加swagger文档相关gradle配置</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>implementation <span style=color:#f1fa8c>&#39;io.swagger:swagger-annotations&#39;</span>
+implementation <span style=color:#f1fa8c>&#39;io.swagger:swagger-models&#39;</span>
+implementation <span style=color:#f1fa8c>&#39;io.springfox:springfox-boot-starter&#39;</span>
+</code></pre></div><p>2.添加swagger配置文件</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@Configuration
+@EnableOpenApi
+@Slf4j
+<span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>SwaggerConfig</span> <span style=color:#ff79c6>{</span>
+    @Bean<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;DefaultDocket&#34;</span><span style=color:#ff79c6>)</span>
+    @ConditionalOnMissingBean<span style=color:#ff79c6>(</span>Docket<span style=color:#ff79c6>.</span><span style=color:#50fa7b>class</span><span style=color:#ff79c6>)</span>
+    <span style=color:#8be9fd;font-style:italic>public</span> Docket <span style=color:#50fa7b>defaultDocket</span><span style=color:#ff79c6>()</span> <span style=color:#ff79c6>{</span>
+        <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>new</span> Docket<span style=color:#ff79c6>(</span>DocumentationType<span style=color:#ff79c6>.</span><span style=color:#50fa7b>OAS_30</span><span style=color:#ff79c6>)</span>
+                <span style=color:#ff79c6>.</span><span style=color:#50fa7b>groupName</span><span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;default&#34;</span><span style=color:#ff79c6>)</span>
+                <span style=color:#ff79c6>.</span><span style=color:#50fa7b>apiInfo</span><span style=color:#ff79c6>(</span>apiInfo<span style=color:#ff79c6>())</span>
+                <span style=color:#ff79c6>.</span><span style=color:#50fa7b>useDefaultResponseMessages</span><span style=color:#ff79c6>(</span><span style=color:#ff79c6>false</span><span style=color:#ff79c6>)</span>
+                <span style=color:#6272a4>//.pathMapping(socialGraphServiceProperties.getContextPath())
+</span><span style=color:#6272a4></span>                <span style=color:#ff79c6>.</span><span style=color:#50fa7b>select</span><span style=color:#ff79c6>()</span>
+                <span style=color:#6272a4>//扫描注解了@ApiOperation的方法生成API接口文档
+</span><span style=color:#6272a4></span>                <span style=color:#ff79c6>.</span><span style=color:#50fa7b>apis</span><span style=color:#ff79c6>(</span>RequestHandlerSelectors<span style=color:#ff79c6>.</span><span style=color:#50fa7b>withMethodAnnotation</span><span style=color:#ff79c6>(</span>ApiOperation<span style=color:#ff79c6>.</span><span style=color:#50fa7b>class</span><span style=color:#ff79c6>))</span>
+                <span style=color:#ff79c6>.</span><span style=color:#50fa7b>paths</span><span style=color:#ff79c6>(</span>PathSelectors<span style=color:#ff79c6>.</span><span style=color:#50fa7b>any</span><span style=color:#ff79c6>())</span>
+                <span style=color:#ff79c6>.</span><span style=color:#50fa7b>build</span><span style=color:#ff79c6>();</span>
+    <span style=color:#ff79c6>}</span>
+
+    <span style=color:#8be9fd;font-style:italic>private</span> ApiInfo <span style=color:#50fa7b>apiInfo</span><span style=color:#ff79c6>()</span> <span style=color:#ff79c6>{</span>
+        <span style=color:#ff79c6>return</span> <span style=color:#ff79c6>new</span> ApiInfoBuilder<span style=color:#ff79c6>()</span>
+                <span style=color:#ff79c6>.</span><span style=color:#50fa7b>title</span><span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;ApiDoc&#34;</span><span style=color:#ff79c6>)</span>
+                <span style=color:#ff79c6>.</span><span style=color:#50fa7b>contact</span><span style=color:#ff79c6>(</span><span style=color:#ff79c6>new</span> Contact<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;yuebaix&#34;</span><span style=color:#ff79c6>,</span> <span style=color:#f1fa8c>&#34;https://github.com/yuebaix&#34;</span><span style=color:#ff79c6>,</span> <span style=color:#f1fa8c>&#34;yuebaix@outlook.com&#34;</span><span style=color:#ff79c6>))</span>
+                <span style=color:#ff79c6>.</span><span style=color:#50fa7b>version</span><span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;1.0.0&#34;</span><span style=color:#ff79c6>)</span>
+                <span style=color:#ff79c6>.</span><span style=color:#50fa7b>description</span><span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;ApiDoc generated by jiuzhou&#34;</span><span style=color:#ff79c6>)</span>
+                <span style=color:#ff79c6>.</span><span style=color:#50fa7b>build</span><span style=color:#ff79c6>();</span>
+    <span style=color:#ff79c6>}</span>
+<span style=color:#ff79c6>}</span>
+</code></pre></div><p>3.改动变更到所有服务并进行启动测试</p>
+<p><a href=http://localhost:12001/swagger-ui/>http://localhost:12001/swagger-ui/</a></p>
+<p><a href=http://localhost:12001/doc.html>http://localhost:12001/doc.html</a></p>
+<p>
+<img src=/pic/2021_10_03/swagger_doc.png alt>
+</p>
+<p>
+<img src=/pic/2021_10_03/knife_doc.png alt>
+</p>
 <h2 id=三开发日志>三、开发日志</h2>
 <hr>
 <ul class=pager>
