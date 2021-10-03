@@ -214,22 +214,30 @@ docker pull tag-image-name
 docker run -it image-name /bin/bash
 docker <span style=color:#8be9fd;font-style:italic>exec</span> -it container-name /bin/bash
 docker cp container-name:/path .
-</code></pre></div><h2 id=四比较折腾>四、比较折腾</h2>
-<h3 id=1c盘爆了>1.C盘爆了</h3>
+</code></pre></div><h2 id=四开发日志>四、开发日志</h2>
+<ul>
+<li>1.C盘爆了</li>
+</ul>
 <blockquote>
 <p>不经常用家里的电脑进行开发，而且本身C盘容量已经很小了，只剩6个G，一边开发一边监控硬盘大小，最终将gradle跟maven的本地缓存配置到其他盘，暂时缓解这个问题。</p>
 </blockquote>
-<h3 id=2c盘又爆了>2.C盘又爆了</h3>
+<ul>
+<li>2.C盘又爆了</li>
+</ul>
 <blockquote>
 <p>准备用docker搭建集群，结果因为docker desktop升级了wsl2，配置本地路径的配置没了，本地镜像与运行时文件，都挤在C盘，最终决定把后面一个盘的空间
 释放出来，合并到C盘，中间备份分类文件，安装启动U盘，各种费力。</p>
 </blockquote>
-<h3 id=3内存爆了>3.内存爆了</h3>
+<ul>
+<li>3.内存爆了</li>
+</ul>
 <blockquote>
 <p>最后C盘扩充了80个G，应该够用很长时间了。在叠加中间件的时候发现win的linux虚拟机内存占用很高，加上idea一下子什么都不干4个G没了，操作系统启动也得2个G。
 apollo耗费内存接近2个G，于是决定优化一下JVM启动参数。官方快速启动的镜像不支持环境变量调整启动参数，决定拉下代码来，自己改一把。</p>
 </blockquote>
-<h3 id=4被换行符坑了>4.被换行符坑了</h3>
+<ul>
+<li>4.被换行符坑了</li>
+</ul>
 <blockquote>
 <p>本来很简单的一个功能，感觉做起来也不复杂。结果就是各种运行报错，最终定位到是换行符的问题。idea导入文件按照操作系统直接给改成CRLF了，改完配置为LF，
 重新run一遍通过。这事很蛋疼，一个是因为idea自动按操作系统给你转很蛋疼，一个是alpine里换行符会造成shell执行不下去，果然开发只能用mac。改完了顺道
@@ -240,6 +248,10 @@ apollo耗费内存接近2个G，于是决定优化一下JVM启动参数。官方
 <li class=previous>
 <a href=/2021/10/01/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/ data-toggle=tooltip data-placement=top title=七天构建SpringCloud集群>&larr;
 Previous Post</a>
+</li>
+<li class=next>
+<a href=/2021/10/03/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/ data-toggle=tooltip data-placement=top title=七天构建SpringCloud集群>Next
+Post &rarr;</a>
 </li>
 </ul>
 <div id=disqus-comment></div>
