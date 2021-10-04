@@ -102,8 +102,9 @@ post-container">
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>implementation <span style=color:#f1fa8c>&#39;org.springframework.cloud:spring-cloud-starter-openfeign&#39;</span>
 </code></pre></div><p>创建feignClient</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>interface</span> <span style=color:#50fa7b>BizFacadeConst</span> <span style=color:#ff79c6>{</span>
-    String APP_BIZ <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;app-biz&#34;</span><span style=color:#ff79c6>;</span>
     String SVC_UAA <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;svc-uaa&#34;</span><span style=color:#ff79c6>;</span>
+    String APP_BIZ <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;app-biz&#34;</span><span style=color:#ff79c6>;</span>
+    String APP_BIZAGG <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;app-bizagg&#34;</span><span style=color:#ff79c6>;</span>
 <span style=color:#ff79c6>}</span>
 
 @FeignClient<span style=color:#ff79c6>(</span>name <span style=color:#ff79c6>=</span> BizFacadeConst<span style=color:#ff79c6>.</span><span style=color:#50fa7b>APP_BIZ</span><span style=color:#ff79c6>,</span> fallbackFactory <span style=color:#ff79c6>=</span> BizFeignClientFallbackFactory<span style=color:#ff79c6>.</span><span style=color:#50fa7b>class</span><span style=color:#ff79c6>)</span>
@@ -151,9 +152,9 @@ feign.circuitbreaker.enabled=true
     @Value<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;${spring.application.name}&#34;</span><span style=color:#ff79c6>)</span>
     <span style=color:#8be9fd;font-style:italic>private</span> String appName<span style=color:#ff79c6>;</span>
     @Autowired
-    <span style=color:#8be9fd;font-style:italic>private</span> BizFeignClient bizFeignClient<span style=color:#ff79c6>;</span>
-    @Autowired
     <span style=color:#8be9fd;font-style:italic>private</span> UaaFeignClient uaaFeignClient<span style=color:#ff79c6>;</span>
+    @Autowired
+    <span style=color:#8be9fd;font-style:italic>private</span> BizFeignClient bizFeignClient<span style=color:#ff79c6>;</span>
 
     @ApiOperation<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;服务名称&#34;</span><span style=color:#ff79c6>)</span>
     @GetMapping<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;/appName&#34;</span><span style=color:#ff79c6>)</span>
@@ -161,16 +162,16 @@ feign.circuitbreaker.enabled=true
         <span style=color:#ff79c6>return</span> appName<span style=color:#ff79c6>;</span>
     <span style=color:#ff79c6>}</span>
 
-    @ApiOperation<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;调用app-biz&#34;</span><span style=color:#ff79c6>)</span>
-    @GetMapping<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;/callAppBiz&#34;</span><span style=color:#ff79c6>)</span>
-    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>callAppBiz</span><span style=color:#ff79c6>()</span> <span style=color:#ff79c6>{</span>
-        <span style=color:#ff79c6>return</span> bizFeignClient<span style=color:#ff79c6>.</span><span style=color:#50fa7b>appName</span><span style=color:#ff79c6>();</span>
-    <span style=color:#ff79c6>}</span>
-
     @ApiOperation<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;调用svc-uaa&#34;</span><span style=color:#ff79c6>)</span>
     @GetMapping<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;/callSvcUaa&#34;</span><span style=color:#ff79c6>)</span>
     <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>callSvcUaa</span><span style=color:#ff79c6>()</span> <span style=color:#ff79c6>{</span>
         <span style=color:#ff79c6>return</span> uaaFeignClient<span style=color:#ff79c6>.</span><span style=color:#50fa7b>appName</span><span style=color:#ff79c6>();</span>
+    <span style=color:#ff79c6>}</span>
+
+    @ApiOperation<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;调用app-biz&#34;</span><span style=color:#ff79c6>)</span>
+    @GetMapping<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;/callAppBiz&#34;</span><span style=color:#ff79c6>)</span>
+    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>callAppBiz</span><span style=color:#ff79c6>()</span> <span style=color:#ff79c6>{</span>
+        <span style=color:#ff79c6>return</span> bizFeignClient<span style=color:#ff79c6>.</span><span style=color:#50fa7b>appName</span><span style=color:#ff79c6>();</span>
     <span style=color:#ff79c6>}</span>
 <span style=color:#ff79c6>}</span>
 </code></pre></div><p>进行调用测试</p>
@@ -184,7 +185,72 @@ feign.circuitbreaker.enabled=true
 <img src=/pic/2021_10_04/call_success.png alt>
 </p>
 <h3 id=3在biz与bizclient中引入feign实现>3.在biz与bizclient中引入feign实现</h3>
-<h2 id=二文档集中>二、文档集中</h2>
+<p>由于调用层级关系，controller有所不痛</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#6272a4>//biz中
+</span><span style=color:#6272a4></span>@Api<span style=color:#ff79c6>(</span>tags <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;示例接口&#34;</span><span style=color:#ff79c6>)</span>
+@Slf4j
+@RestController
+@RequestMapping<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;/demo&#34;</span><span style=color:#ff79c6>)</span>
+<span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>DemoController</span> <span style=color:#ff79c6>{</span>
+    @Value<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;${spring.application.name}&#34;</span><span style=color:#ff79c6>)</span>
+    <span style=color:#8be9fd;font-style:italic>private</span> String appName<span style=color:#ff79c6>;</span>
+    @Autowired
+    <span style=color:#8be9fd;font-style:italic>private</span> UaaFeignClient uaaFeignClient<span style=color:#ff79c6>;</span>
+
+    @ApiOperation<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;服务名称&#34;</span><span style=color:#ff79c6>)</span>
+    @GetMapping<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;/appName&#34;</span><span style=color:#ff79c6>)</span>
+    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>appName</span><span style=color:#ff79c6>()</span> <span style=color:#ff79c6>{</span>
+        <span style=color:#ff79c6>return</span> appName<span style=color:#ff79c6>;</span>
+    <span style=color:#ff79c6>}</span>
+
+    @ApiOperation<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;调用svc-uaa&#34;</span><span style=color:#ff79c6>)</span>
+    @GetMapping<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;/callSvcUaa&#34;</span><span style=color:#ff79c6>)</span>
+    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>callSvcUaa</span><span style=color:#ff79c6>()</span> <span style=color:#ff79c6>{</span>
+        <span style=color:#ff79c6>return</span> uaaFeignClient<span style=color:#ff79c6>.</span><span style=color:#50fa7b>appName</span><span style=color:#ff79c6>();</span>
+    <span style=color:#ff79c6>}</span>
+<span style=color:#ff79c6>}</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#6272a4>//bizclient中
+</span><span style=color:#6272a4></span>@Api<span style=color:#ff79c6>(</span>tags <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;示例接口&#34;</span><span style=color:#ff79c6>)</span>
+@Slf4j
+@RestController
+@RequestMapping<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;/demo&#34;</span><span style=color:#ff79c6>)</span>
+<span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>DemoController</span> <span style=color:#ff79c6>{</span>
+    @Value<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;${spring.application.name:app-bizclient}&#34;</span><span style=color:#ff79c6>)</span>
+    <span style=color:#8be9fd;font-style:italic>private</span> String appName<span style=color:#ff79c6>;</span>
+    @Autowired
+    <span style=color:#8be9fd;font-style:italic>private</span> UaaFeignClient uaaFeignClient<span style=color:#ff79c6>;</span>
+    @Autowired
+    <span style=color:#8be9fd;font-style:italic>private</span> BizFeignClient bizFeignClient<span style=color:#ff79c6>;</span>
+    @Autowired
+    <span style=color:#8be9fd;font-style:italic>private</span> BizAggFeignClient bizAggFeignClient<span style=color:#ff79c6>;</span>
+
+    @ApiOperation<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;服务名称&#34;</span><span style=color:#ff79c6>)</span>
+    @GetMapping<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;/appName&#34;</span><span style=color:#ff79c6>)</span>
+    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>appName</span><span style=color:#ff79c6>()</span> <span style=color:#ff79c6>{</span>
+        <span style=color:#ff79c6>return</span> appName<span style=color:#ff79c6>;</span>
+    <span style=color:#ff79c6>}</span>
+
+    @ApiOperation<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;调用svc-uaa&#34;</span><span style=color:#ff79c6>)</span>
+    @GetMapping<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;/callSvcUaa&#34;</span><span style=color:#ff79c6>)</span>
+    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>callSvcUaa</span><span style=color:#ff79c6>()</span> <span style=color:#ff79c6>{</span>
+        <span style=color:#ff79c6>return</span> uaaFeignClient<span style=color:#ff79c6>.</span><span style=color:#50fa7b>appName</span><span style=color:#ff79c6>();</span>
+    <span style=color:#ff79c6>}</span>
+
+    @ApiOperation<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;调用app-biz&#34;</span><span style=color:#ff79c6>)</span>
+    @GetMapping<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;/callAppBiz&#34;</span><span style=color:#ff79c6>)</span>
+    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>callAppBiz</span><span style=color:#ff79c6>()</span> <span style=color:#ff79c6>{</span>
+        <span style=color:#ff79c6>return</span> bizFeignClient<span style=color:#ff79c6>.</span><span style=color:#50fa7b>appName</span><span style=color:#ff79c6>();</span>
+    <span style=color:#ff79c6>}</span>
+
+    @ApiOperation<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;调用app-bizagg&#34;</span><span style=color:#ff79c6>)</span>
+    @GetMapping<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;/callAppBizagg&#34;</span><span style=color:#ff79c6>)</span>
+    <span style=color:#8be9fd;font-style:italic>public</span> String <span style=color:#50fa7b>callAppBizagg</span><span style=color:#ff79c6>()</span> <span style=color:#ff79c6>{</span>
+        <span style=color:#ff79c6>return</span> bizAggFeignClient<span style=color:#ff79c6>.</span><span style=color:#50fa7b>appName</span><span style=color:#ff79c6>();</span>
+    <span style=color:#ff79c6>}</span>
+<span style=color:#ff79c6>}</span>
+</code></pre></div><h2 id=二文档集中>二、文档集中</h2>
+<h3 id=1完成sys-gate对服务的路由>1.完成sys-gate对服务的路由</h3>
+<h3 id=2完成swagger接口的路由配置>2.完成swagger接口的路由配置</h3>
 <h2 id=三简单登陆>三、简单登陆</h2>
 <h2 id=四开发日志>四、开发日志</h2>
 <hr>
