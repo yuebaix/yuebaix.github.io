@@ -7,17 +7,17 @@
 <meta property="og:type" content="article">
 <meta property="og:image" content="https://blog.yuebaix.com/img/home-bg-jeep.jpg">
 <meta property="twitter:image" content="https://blog.yuebaix.com/img/home-bg-jeep.jpg">
-<meta name=title content>
-<meta property="og:title" content>
-<meta property="twitter:title" content>
-<meta name=description content="月白，程序员, 开源爱好者，生活探险家 | 这里是 月白 的博客，与你一起发现更大的世界。">
-<meta property="og:description" content="月白，程序员, 开源爱好者，生活探险家 | 这里是 月白 的博客，与你一起发现更大的世界。">
-<meta property="twitter:description" content="月白，程序员, 开源爱好者，生活探险家 | 这里是 月白 的博客，与你一起发现更大的世界。">
+<meta name=title content="Github沟通黑话">
+<meta property="og:title" content="Github沟通黑话">
+<meta property="twitter:title" content="Github沟通黑话">
+<meta name=description content="记录一些在issue与pr中使用的缩写">
+<meta property="og:description" content="记录一些在issue与pr中使用的缩写">
+<meta property="twitter:description" content="记录一些在issue与pr中使用的缩写">
 <meta property="twitter:card" content="summary">
 <meta name=keyword content="月白, yuebaix, Yuebaix, , 月白的博客, Yuebaix Blog, 博客, 个人网站, 互联网, Web, Spring, Springboot, Spring Cloud, Webflux, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
 <link rel="shortcut icon" href=/img/favicon.ico>
-<title>Searches-月白的博客 | Yuebaix Blog</title>
-<link rel=canonical href=/search/>
+<title>Github沟通黑话-月白的博客 | Yuebaix Blog</title>
+<link rel=canonical href=/2021/10/05/github%E6%B2%9F%E9%80%9A%E9%BB%91%E8%AF%9D/>
 <link rel=stylesheet href=/css/iDisqus.min.css>
 <link rel=stylesheet href=/css/bootstrap.min.css>
 <link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css>
@@ -59,50 +59,62 @@
 </div>
 </nav>
 <script>var $body=document.body,$toggle=document.querySelector('.navbar-toggle'),$navbar=document.querySelector('#huxblog_navbar'),$collapse=document.querySelector('.navbar-collapse');$toggle.addEventListener('click',handleMagic);function handleMagic(a){$navbar.className.indexOf('in')>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf('in')<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script>
-<header class=intro-header style=background-image:url(/img/home-bg-jeep.jpg)>
+<style type=text/css>header.intro-header{background-image:url(/img/home-bg-jeep.jpg)}</style>
+<header class=intro-header>
 <div class=container>
 <div class=row>
 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<div class=site-heading>
-<h1>月白 Yuebaix Blog </h1>
-<span class=subheading>路在脚下，心向远方</span>
+<div class=post-heading>
+<div class=tags>
+<a class=tag href=/tags/%E9%97%B2%E8%B0%88 title=闲谈>
+闲谈
+</a>
+</div>
+<h1>Github沟通黑话</h1>
+<h2 class=subheading></h2>
+<span class=meta>
+Posted by
+月白
+on
+Tuesday, October 5, 2021
+</span>
 </div>
 </div>
 </div>
 </div>
 </header>
+<article>
 <div class=container>
 <div class=row>
-<div class="col-lg-8 col-lg-offset-1
-col-md-8 col-md-offset-1
-col-sm-12
-col-xs-12
+<div class="col-lg-8 col-lg-offset-2
+col-md-10 col-md-offset-1
 post-container">
-<script src=https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.js></script>
-<script src=https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js></script>
-<link rel=stylesheet type=text/css href=https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch.min.css>
-<link rel=stylesheet type=text/css href=https://cdn.jsdelivr.net/npm/instantsearch.js@2.6.0/dist/instantsearch-theme-algolia.min.css>
-<div id=search-searchbar></div>
-<div class=post-list id=search-hits>
+<h2 id=记录一些在issue与pr中使用的缩写>记录一些在issue与pr中使用的缩写</h2>
+<ul>
+<li>WIP Work in progress, do not merge yet. // 开发中</li>
+<li>LGTM Looks good to me. // Riview 完别人的 PR ，没有问题</li>
+<li>PTAL Please take a look. // 帮我看下，一般都是请别人 review 自己的 PR</li>
+<li>CC Carbon copy // 一般代表抄送别人的意思</li>
+<li>RFC request for comments. // 我觉得这个想法很好, 我们来一起讨论下</li>
+<li>IIRC if I recall correctly. // 如果我没记错</li>
+<li>ACK acknowledgement. // 我确认了或者我接受了,我承认了</li>
+<li>NACK/NAK — negative acknowledgement. // 我不同意</li>
+</ul>
+<hr>
+<ul class=pager>
+<li class=previous>
+<a href=/2021/10/05/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/ data-toggle=tooltip data-placement=top title=七天构建SpringCloud集群>&larr;
+Previous Post</a>
+</li>
+</ul>
+<div id=disqus-comment></div>
 </div>
-<script>const search=instantsearch({appId:'',indexName:'',apiKey:''}),hitTemplate=function(a){let c='';a.date&&(c=moment.unix(a.date).format('MMM D, YYYY'));let d=`${a.url}#${a.anchor}`;const f=a._highlightResult.title.value;let e='';a._highlightResult.headings&&(e=a._highlightResult.headings.map(a=>`<span class="post-breadcrumb">${a.value}</span>`).join(' > '));let b="";return a._highlightResult.content?b=a._highlightResult.content.value:b=a.summary,`
-    <div class="post-item">
-      <span class="post-meta">${c}</span>
-      <h2><a class="post-link" href="${d}">${f}</a></h2>
-      <a href="${d}" class="post-breadcrumbs">${e}</a>
-      <div class="post-snippet">${b}</div>
-    </div>
-  `};search.addWidget(instantsearch.widgets.searchBox({container:'#search-searchbar',placeholder:'Search into posts...',poweredBy:!0})),search.addWidget(instantsearch.widgets.hits({container:'#search-hits',templates:{item:hitTemplate}})),search.start()</script>
-<style>.ais-search-box{max-width:100%;margin-bottom:15px}.post-item{margin-bottom:30px}.post-link .ais-Highlight{color:#111;font-style:normal;text-decoration:underline}.post-breadcrumbs{color:#424242;display:block}.post-breadcrumb{font-size:18px;color:#424242}.post-breadcrumb .ais-Highlight{font-weight:700;font-style:normal}.post-snippet .ais-Highlight{color:#2a7ae2;font-style:normal;font-weight:700}.post-snippet img{display:none}</style>
-</div>
-<div class="col-lg-3 col-lg-offset-0
-col-md-3 col-md-offset-0
-col-sm-12
-col-xs-12
+<div class="col-lg-11 col-lg-offset-1
+col-md-10 col-md-offset-1
 sidebar-container">
 <section>
 <hr class="hidden-sm hidden-xs">
-<h5>FEATURED TAGS</h5>
+<h5><a href=/tags/>FEATURED TAGS</a></h5>
 <div class=tags>
 <a href=/tags/%E4%BC%A0%E5%A5%87 title=传奇>
 传奇
@@ -121,27 +133,8 @@ sidebar-container">
 </a>
 </div>
 </section>
-<section class="visible-md visible-lg">
-<hr><h5><a href=/top/about>ABOUT ME</a></h5>
-<div class=short-about>
-<a href=/top/about>
-<img src=/img/profile.png alt=avatar style=cursor:pointer>
-</a>
-<p>Software Developer, Open Source Enthusiast and Life Adventurer</p>
-<ul class=list-inline>
-<li>
-<a target=_blank href=https://github.com/yuebaix>
-<span class="fa-stack fa-lg">
-<i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-github fa-stack-1x fa-inverse"></i>
-</span>
-</a>
-</li>
-</ul>
-</div>
-</section>
 <section>
-<hr class="hidden-sm hidden-xs">
+<hr>
 <h5>FRIENDS</h5>
 <ul class=list-inline>
 <li><a target=_blank href=https://yloopdaed.icu/>yloopdaed的博客</a></li>
@@ -150,6 +143,7 @@ sidebar-container">
 </div>
 </div>
 </div>
+</article>
 <footer>
 <div class=container>
 <div class=row>
