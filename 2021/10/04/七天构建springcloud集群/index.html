@@ -250,8 +250,52 @@ feign.circuitbreaker.enabled=true
 <span style=color:#ff79c6>}</span>
 </code></pre></div><h2 id=二文档集中>二、文档集中</h2>
 <h3 id=1完成sys-gate对服务的路由>1.完成sys-gate对服务的路由</h3>
+<p>打开gate配置文件application.properties调试配置方便查看转发情况</p>
+<pre tabindex=0><code class=language-properties data-lang=properties>logging.level.org.springframework.cloud.gateway=trace
+spring.cloud.gateway.httpclient.wiretap=true
+spring.cloud.gateway.httpserver.wiretap=true
+</code></pre><p>properties配置路由比较suffer，干脆再加个application.yml来配置路由地址</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#ff79c6>spring</span>:
+  <span style=color:#ff79c6>cloud</span>:
+    <span style=color:#ff79c6>gateway</span>:
+      <span style=color:#ff79c6>routes</span>:
+        - <span style=color:#ff79c6>id</span>: route-app-bizagg
+          <span style=color:#ff79c6>uri</span>: lb://app-bizagg
+          <span style=color:#ff79c6>predicates</span>:
+            - Path=/app-bizagg/**
+          <span style=color:#ff79c6>filters</span>:
+            - StripPrefix=1
+        - <span style=color:#ff79c6>id</span>: route-app-biz
+          <span style=color:#ff79c6>uri</span>: lb://app-biz
+          <span style=color:#ff79c6>predicates</span>:
+            - Path=/app-biz/**
+          <span style=color:#ff79c6>filters</span>:
+            - StripPrefix=1
+</code></pre></div><p>再提供一下application.properties路由的配置示例</p>
+<pre tabindex=0><code class=language-properties data-lang=properties>spring.cloud.gateway.routes[0].id=app-bizagg-route
+spring.cloud.gateway.routes[0].uri=lb://app-bizagg
+spring.cloud.gateway.routes[0].predicates[0]=Path=/app-bizagg/**
+spring.cloud.gateway.routes[0].filters[0]=StripPrefix=1
+</code></pre><p>这个时候gate对各个服务的请求就打通了，但是返回的文档内容没有前缀，无法访问到服务上，如果路由前缀跟服务contextPath一致的话应该已经通了，但是这里
+没有设置contextPath，比较受限，一会来解决这个问题。</p>
 <h3 id=2完成swagger接口的路由配置>2.完成swagger接口的路由配置</h3>
-<h2 id=三简单登陆>三、简单登陆</h2>
+<p>先来解决文档/v3/api-docs返回的json中server地址无前缀的问题</p>
+<blockquote>
+<p>在线文档接口前缀可以自动根据请求地址来自动适配，原理是网关会将请求头<em>X-Forwarded-Prefix</em>进行叠加转发，springfox文档会自动根据这个header来
+进行适配。此次开发中，发现有两个变化，一个是gateway会自动将这个header在stripPrefix的插件时自动转发下来；一个是升级open api以后，springfox
+自己的mvc实现的controller把这个功能移除掉了，需要扩展变更上去才可使用。</p>
+</blockquote>
+<p>先设置<em>X-Forwarded-Prefix</em>的转发，实际这个地方默认就是这样的配置。</p>
+<pre tabindex=0><code class=language-properties data-lang=properties>spring.cloud.gateway.x-forwarded.prefix-enabled=true
+spring.cloud.gateway.x-forwarded.prefix-append=true
+</code></pre><p>由于springfox在inferredServer这个地方的处理是用spring plugin实现的，所以我们可以自己实现一个一样的插件在它处理出来的server url上添加前缀。
+springfox本身实现的plugin是优先级最高的，所以我们只要实现不配置顺序就可以了。由于各个业务可能都要用，所以就实现在了bizfacade包中。</p>
+<p>在bizfacade的gradle文件中新增依赖</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>implementation <span style=color:#f1fa8c>&#39;javax.servlet:javax.servlet-api&#39;</span>
+implementation <span style=color:#f1fa8c>&#39;io.springfox:springfox-boot-starter&#39;</span>
+</code></pre></div><p>在bizfacade中实现插件并导入SpringContext</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
+</code></pre></div><h2 id=三简单登陆>三、简单登陆</h2>
 <h2 id=四开发日志>四、开发日志</h2>
 <hr>
 <ul class=pager>
