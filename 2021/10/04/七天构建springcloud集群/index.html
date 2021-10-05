@@ -185,7 +185,7 @@ feign.circuitbreaker.enabled=true
 <img src=/pic/2021_10_04/call_success.png alt>
 </p>
 <h3 id=3在biz与bizclient中引入feign实现>3.在biz与bizclient中引入feign实现</h3>
-<p>由于调用层级关系，controller有所不痛</p>
+<p>由于调用层级关系，controller有所不同</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#6272a4>//biz中
 </span><span style=color:#6272a4></span>@Api<span style=color:#ff79c6>(</span>tags <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;示例接口&#34;</span><span style=color:#ff79c6>)</span>
 @Slf4j
@@ -294,9 +294,153 @@ springfox本身实现的plugin是优先级最高的，所以我们只要实现�
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>implementation <span style=color:#f1fa8c>&#39;javax.servlet:javax.servlet-api&#39;</span>
 implementation <span style=color:#f1fa8c>&#39;io.springfox:springfox-boot-starter&#39;</span>
 </code></pre></div><p>在bizfacade中实现插件并导入SpringContext</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
-</code></pre></div><h2 id=三简单登陆>三、简单登陆</h2>
-<h2 id=四开发日志>四、开发日志</h2>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@Component
+<span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>WebMvcXForwardedPrefixOpenApiTransformationFilter</span> <span style=color:#8be9fd;font-style:italic>implements</span> WebMvcOpenApiTransformationFilter <span style=color:#ff79c6>{</span>
+    <span style=color:#8be9fd;font-style:italic>private</span> <span style=color:#8be9fd;font-style:italic>static</span> <span style=color:#8be9fd;font-style:italic>final</span> String X_FORWARDED_PREFIX <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;X-Forwarded-Prefix&#34;</span><span style=color:#ff79c6>;</span>
+    <span style=color:#8be9fd;font-style:italic>private</span> <span style=color:#8be9fd;font-style:italic>static</span> <span style=color:#8be9fd;font-style:italic>final</span> String COMMA <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;,&#34;</span><span style=color:#ff79c6>;</span>
+
+    @Override
+    <span style=color:#8be9fd;font-style:italic>public</span> OpenAPI <span style=color:#50fa7b>transform</span><span style=color:#ff79c6>(</span>OpenApiTransformationContext<span style=color:#ff79c6>&lt;</span>HttpServletRequest<span style=color:#ff79c6>&gt;</span> context<span style=color:#ff79c6>)</span> <span style=color:#ff79c6>{</span>
+        OpenAPI openApi <span style=color:#ff79c6>=</span> context<span style=color:#ff79c6>.</span><span style=color:#50fa7b>getSpecification</span><span style=color:#ff79c6>();</span>
+        context<span style=color:#ff79c6>.</span><span style=color:#50fa7b>request</span><span style=color:#ff79c6>().</span><span style=color:#50fa7b>ifPresent</span><span style=color:#ff79c6>(</span>httpServletRequest <span style=color:#ff79c6>-&gt;</span> <span style=color:#ff79c6>{</span>
+            String xForwardedPrefix <span style=color:#ff79c6>=</span> httpServletRequest<span style=color:#ff79c6>.</span><span style=color:#50fa7b>getHeader</span><span style=color:#ff79c6>(</span>X_FORWARDED_PREFIX<span style=color:#ff79c6>);</span>
+            <span style=color:#ff79c6>if</span> <span style=color:#ff79c6>(!</span>StringUtils<span style=color:#ff79c6>.</span><span style=color:#50fa7b>isEmpty</span><span style=color:#ff79c6>(</span>xForwardedPrefix<span style=color:#ff79c6>))</span> <span style=color:#ff79c6>{</span>
+                String<span style=color:#ff79c6>[]</span> prefixArr <span style=color:#ff79c6>=</span> xForwardedPrefix<span style=color:#ff79c6>.</span><span style=color:#50fa7b>split</span><span style=color:#ff79c6>(</span>COMMA<span style=color:#ff79c6>);</span>
+                <span style=color:#ff79c6>if</span> <span style=color:#ff79c6>(</span>prefixArr<span style=color:#ff79c6>.</span><span style=color:#50fa7b>length</span> <span style=color:#ff79c6>&gt;</span> 0<span style=color:#ff79c6>)</span> <span style=color:#ff79c6>{</span>
+                    String prefix <span style=color:#ff79c6>=</span> fixup<span style=color:#ff79c6>(</span>prefixArr<span style=color:#ff79c6>[</span>0<span style=color:#ff79c6>]);</span>
+                    List<span style=color:#ff79c6>&lt;</span>Server<span style=color:#ff79c6>&gt;</span> servers <span style=color:#ff79c6>=</span> openApi<span style=color:#ff79c6>.</span><span style=color:#50fa7b>getServers</span><span style=color:#ff79c6>();</span>
+                    <span style=color:#ff79c6>for</span> <span style=color:#ff79c6>(</span>Server server <span style=color:#ff79c6>:</span> servers<span style=color:#ff79c6>)</span> <span style=color:#ff79c6>{</span>
+                        UriComponentsBuilder uriComponentsBuilder <span style=color:#ff79c6>=</span> UriComponentsBuilder<span style=color:#ff79c6>.</span><span style=color:#50fa7b>fromUriString</span><span style=color:#ff79c6>(</span>server<span style=color:#ff79c6>.</span><span style=color:#50fa7b>getUrl</span><span style=color:#ff79c6>());</span>
+                        uriComponentsBuilder<span style=color:#ff79c6>.</span><span style=color:#50fa7b>path</span><span style=color:#ff79c6>(</span>prefix<span style=color:#ff79c6>);</span>
+                        UriComponents uriComponents <span style=color:#ff79c6>=</span> uriComponentsBuilder<span style=color:#ff79c6>.</span><span style=color:#50fa7b>build</span><span style=color:#ff79c6>();</span>
+                        server<span style=color:#ff79c6>.</span><span style=color:#50fa7b>setUrl</span><span style=color:#ff79c6>(</span>uriComponents<span style=color:#ff79c6>.</span><span style=color:#50fa7b>toUriString</span><span style=color:#ff79c6>());</span>
+                    <span style=color:#ff79c6>}</span>
+                <span style=color:#ff79c6>}</span>
+            <span style=color:#ff79c6>}</span>
+        <span style=color:#ff79c6>});</span>
+        <span style=color:#ff79c6>return</span> openApi<span style=color:#ff79c6>;</span>
+    <span style=color:#ff79c6>}</span>
+
+    @Override
+    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd>boolean</span> <span style=color:#50fa7b>supports</span><span style=color:#ff79c6>(</span>DocumentationType delimiter<span style=color:#ff79c6>)</span> <span style=color:#ff79c6>{</span>
+        <span style=color:#ff79c6>return</span> delimiter <span style=color:#ff79c6>==</span> DocumentationType<span style=color:#ff79c6>.</span><span style=color:#50fa7b>OAS_30</span><span style=color:#ff79c6>;</span>
+    <span style=color:#ff79c6>}</span>
+
+    <span style=color:#8be9fd;font-style:italic>private</span> String <span style=color:#50fa7b>fixup</span><span style=color:#ff79c6>(</span>String path<span style=color:#ff79c6>)</span> <span style=color:#ff79c6>{</span>
+        <span style=color:#ff79c6>if</span> <span style=color:#ff79c6>(</span>StringUtils<span style=color:#ff79c6>.</span><span style=color:#50fa7b>isEmpty</span><span style=color:#ff79c6>(</span>path<span style=color:#ff79c6>)</span>
+                <span style=color:#ff79c6>||</span> <span style=color:#f1fa8c>&#34;/&#34;</span><span style=color:#ff79c6>.</span><span style=color:#50fa7b>equals</span><span style=color:#ff79c6>(</span>path<span style=color:#ff79c6>)</span>
+                <span style=color:#ff79c6>||</span> <span style=color:#f1fa8c>&#34;//&#34;</span><span style=color:#ff79c6>.</span><span style=color:#50fa7b>equals</span><span style=color:#ff79c6>(</span>path<span style=color:#ff79c6>))</span> <span style=color:#ff79c6>{</span>
+            <span style=color:#ff79c6>return</span> <span style=color:#f1fa8c>&#34;/&#34;</span><span style=color:#ff79c6>;</span>
+        <span style=color:#ff79c6>}</span>
+        <span style=color:#ff79c6>return</span> StringUtils<span style=color:#ff79c6>.</span><span style=color:#50fa7b>trimTrailingCharacter</span><span style=color:#ff79c6>(</span>path<span style=color:#ff79c6>.</span><span style=color:#50fa7b>replace</span><span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;//&#34;</span><span style=color:#ff79c6>,</span> <span style=color:#f1fa8c>&#34;/&#34;</span><span style=color:#ff79c6>),</span> <span style=color:#f1fa8c>&#39;/&#39;</span><span style=color:#ff79c6>);</span>
+    <span style=color:#ff79c6>}</span>
+<span style=color:#ff79c6>}</span>
+</code></pre></div><p>实现SwaggerResourcesProvider实现路由转换为多definition。一般实现SwaggerResourcesProvider接口即可，这里我是继承InMemorySwaggerResourcesProvider
+来实现的，可以把gateway本身的接口也添加近definition中。</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@Primary
+@Configuration
+<span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>GatewayRoutesOasSwaggerResourcesProvider</span> <span style=color:#8be9fd;font-style:italic>extends</span> InMemorySwaggerResourcesProvider <span style=color:#ff79c6>{</span>
+    <span style=color:#8be9fd;font-style:italic>protected</span> <span style=color:#8be9fd;font-style:italic>static</span> <span style=color:#8be9fd;font-style:italic>final</span> String API_DOCS_URI <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;/v3/api-docs&#34;</span><span style=color:#ff79c6>;</span>
+    <span style=color:#8be9fd;font-style:italic>private</span> <span style=color:#8be9fd;font-style:italic>static</span> <span style=color:#8be9fd;font-style:italic>final</span> String SWAGGER_VERSION <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;3.0&#34;</span><span style=color:#ff79c6>;</span>
+    <span style=color:#8be9fd;font-style:italic>private</span> <span style=color:#8be9fd;font-style:italic>final</span> RouteLocator routeLocator<span style=color:#ff79c6>;</span>
+    <span style=color:#8be9fd;font-style:italic>private</span> <span style=color:#8be9fd;font-style:italic>final</span> GatewayProperties gatewayProperties<span style=color:#ff79c6>;</span>
+
+    <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#50fa7b>GatewayRoutesOasSwaggerResourcesProvider</span><span style=color:#ff79c6>(</span>
+            RouteLocator routeLocator<span style=color:#ff79c6>,</span> GatewayProperties gatewayProperties<span style=color:#ff79c6>,</span>
+            Environment environment<span style=color:#ff79c6>,</span> DocumentationCache documentationCache<span style=color:#ff79c6>,</span> DocumentationPluginsManager pluginsManager<span style=color:#ff79c6>)</span> <span style=color:#ff79c6>{</span>
+        <span style=color:#8be9fd;font-style:italic>super</span><span style=color:#ff79c6>(</span>environment<span style=color:#ff79c6>,</span> documentationCache<span style=color:#ff79c6>,</span> pluginsManager<span style=color:#ff79c6>);</span>
+        <span style=color:#ff79c6>this</span><span style=color:#ff79c6>.</span><span style=color:#50fa7b>routeLocator</span> <span style=color:#ff79c6>=</span> routeLocator<span style=color:#ff79c6>;</span>
+        <span style=color:#ff79c6>this</span><span style=color:#ff79c6>.</span><span style=color:#50fa7b>gatewayProperties</span> <span style=color:#ff79c6>=</span> gatewayProperties<span style=color:#ff79c6>;</span>
+    <span style=color:#ff79c6>}</span>
+
+    @Override
+    <span style=color:#8be9fd;font-style:italic>public</span> List<span style=color:#ff79c6>&lt;</span>SwaggerResource<span style=color:#ff79c6>&gt;</span> <span style=color:#50fa7b>get</span><span style=color:#ff79c6>()</span> <span style=color:#ff79c6>{</span>
+        List<span style=color:#ff79c6>&lt;</span>SwaggerResource<span style=color:#ff79c6>&gt;</span> resources <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> ArrayList<span style=color:#ff79c6>&lt;&gt;();</span>
+        resources<span style=color:#ff79c6>.</span><span style=color:#50fa7b>addAll</span><span style=color:#ff79c6>(</span><span style=color:#8be9fd;font-style:italic>super</span><span style=color:#ff79c6>.</span><span style=color:#50fa7b>get</span><span style=color:#ff79c6>());</span>
+        List<span style=color:#ff79c6>&lt;</span>String<span style=color:#ff79c6>&gt;</span> routes <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> ArrayList<span style=color:#ff79c6>&lt;&gt;();</span>
+        routeLocator<span style=color:#ff79c6>.</span><span style=color:#50fa7b>getRoutes</span><span style=color:#ff79c6>().</span><span style=color:#50fa7b>subscribe</span><span style=color:#ff79c6>(</span>route <span style=color:#ff79c6>-&gt;</span> routes<span style=color:#ff79c6>.</span><span style=color:#50fa7b>add</span><span style=color:#ff79c6>(</span>route<span style=color:#ff79c6>.</span><span style=color:#50fa7b>getId</span><span style=color:#ff79c6>()));</span>
+        gatewayProperties<span style=color:#ff79c6>.</span><span style=color:#50fa7b>getRoutes</span><span style=color:#ff79c6>().</span><span style=color:#50fa7b>stream</span><span style=color:#ff79c6>().</span><span style=color:#50fa7b>filter</span><span style=color:#ff79c6>(</span>routeDefinition <span style=color:#ff79c6>-&gt;</span> routes<span style=color:#ff79c6>.</span><span style=color:#50fa7b>contains</span><span style=color:#ff79c6>(</span>routeDefinition<span style=color:#ff79c6>.</span><span style=color:#50fa7b>getId</span><span style=color:#ff79c6>())).</span><span style=color:#50fa7b>forEach</span><span style=color:#ff79c6>(</span>route <span style=color:#ff79c6>-&gt;</span> <span style=color:#ff79c6>{</span>
+            route<span style=color:#ff79c6>.</span><span style=color:#50fa7b>getPredicates</span><span style=color:#ff79c6>().</span><span style=color:#50fa7b>stream</span><span style=color:#ff79c6>()</span>
+                    <span style=color:#ff79c6>.</span><span style=color:#50fa7b>filter</span><span style=color:#ff79c6>(</span>predicateDefinition <span style=color:#ff79c6>-&gt;</span> <span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;Path&#34;</span><span style=color:#ff79c6>).</span><span style=color:#50fa7b>equalsIgnoreCase</span><span style=color:#ff79c6>(</span>predicateDefinition<span style=color:#ff79c6>.</span><span style=color:#50fa7b>getName</span><span style=color:#ff79c6>()))</span>
+                    <span style=color:#ff79c6>.</span><span style=color:#50fa7b>forEach</span><span style=color:#ff79c6>(</span>predicateDefinition <span style=color:#ff79c6>-&gt;</span> resources<span style=color:#ff79c6>.</span><span style=color:#50fa7b>add</span><span style=color:#ff79c6>(</span>swaggerResource<span style=color:#ff79c6>(</span>route<span style=color:#ff79c6>.</span><span style=color:#50fa7b>getId</span><span style=color:#ff79c6>(),</span>
+                            predicateDefinition<span style=color:#ff79c6>.</span><span style=color:#50fa7b>getArgs</span><span style=color:#ff79c6>().</span><span style=color:#50fa7b>get</span><span style=color:#ff79c6>(</span>NameUtils<span style=color:#ff79c6>.</span><span style=color:#50fa7b>GENERATED_NAME_PREFIX</span> <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;0&#34;</span><span style=color:#ff79c6>)</span>
+                                    <span style=color:#ff79c6>.</span><span style=color:#50fa7b>replace</span><span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;**&#34;</span><span style=color:#ff79c6>,</span> API_DOCS_URI<span style=color:#ff79c6>))));</span>
+        <span style=color:#ff79c6>});</span>
+        <span style=color:#ff79c6>return</span> resources<span style=color:#ff79c6>;</span>
+    <span style=color:#ff79c6>}</span>
+
+    <span style=color:#8be9fd;font-style:italic>private</span> SwaggerResource <span style=color:#50fa7b>swaggerResource</span><span style=color:#ff79c6>(</span>String name<span style=color:#ff79c6>,</span> String location<span style=color:#ff79c6>)</span> <span style=color:#ff79c6>{</span>
+        SwaggerResource swaggerResource <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>new</span> SwaggerResource<span style=color:#ff79c6>();</span>
+        swaggerResource<span style=color:#ff79c6>.</span><span style=color:#50fa7b>setName</span><span style=color:#ff79c6>(</span>name<span style=color:#ff79c6>);</span>
+        swaggerResource<span style=color:#ff79c6>.</span><span style=color:#50fa7b>setLocation</span><span style=color:#ff79c6>(</span>location<span style=color:#ff79c6>);</span>
+        swaggerResource<span style=color:#ff79c6>.</span><span style=color:#50fa7b>setSwaggerVersion</span><span style=color:#ff79c6>(</span>SWAGGER_VERSION<span style=color:#ff79c6>);</span>
+        <span style=color:#ff79c6>return</span> swaggerResource<span style=color:#ff79c6>;</span>
+    <span style=color:#ff79c6>}</span>
+<span style=color:#ff79c6>}</span>
+</code></pre></div><h3 id=3进行综合测试>3.进行综合测试</h3>
+<p>为方便测试，对biz-agg配置application.properties进行contextPath的调整，可以与biz-app对照</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>server<span style=color:#ff79c6>.</span><span style=color:#50fa7b>servlet</span><span style=color:#ff79c6>.</span><span style=color:#50fa7b>context</span><span style=color:#ff79c6>-</span>path<span style=color:#ff79c6>=/</span>app<span style=color:#ff79c6>-</span>bizagg
+</code></pre></div><p>修改网关对应的转发配置</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#ff79c6>spring</span>:
+  <span style=color:#ff79c6>cloud</span>:
+    <span style=color:#ff79c6>gateway</span>:
+      <span style=color:#ff79c6>routes</span>:
+        - <span style=color:#ff79c6>id</span>: route-app-bizagg
+          <span style=color:#ff79c6>uri</span>: lb://app-bizagg
+          <span style=color:#ff79c6>predicates</span>:
+            - Path=/app-bizagg/**
+<span style=color:#6272a4>#          filters:</span>
+<span style=color:#6272a4>#            - StripPrefix=1</span>
+</code></pre></div><p>
+<img src=/pic/2021_10_04/gate_knife_doc.png alt>
+</p>
+<p>
+<img src=/pic/2021_10_04/gate_knife_doc_definitions.png alt>
+</p>
+<h3 id=4总结>4.总结</h3>
+<p>到这里在线文档聚合这个功能就已经完善了。其实还可以实现一个GlobalFilter去添加自定义header，并在swagger插件中对自定义header进行识别转换inferredServer地址，此处主要为了最小化代码量完成功能。</p>
+<h2 id=三开发日志>三、开发日志</h2>
+<ul>
+<li>1.apollo-quick-start PR 反馈</li>
+</ul>
+<blockquote>
+<p>今日宋老师又有反馈了，要把账号密码的环境变量都带上，并且密码要脱敏显示。也许我开发自己的代码太多了，做东西比较随意，我一度也以为这个项目也只是个
+用来测试的东西。接触下来感觉好像不是，要更认真地面对功能与产品设计，因为这些是一开始就应该能想到的。在apollo这样的项目里，用户非常多，也更应该
+认真来应对问题。也由于在这个上面改来改去调来调去的，导致自己jiuzhou项目开发进度变慢了。准备明天爆肝一下。</p>
+</blockquote>
+<ul>
+<li>2.hugo-theme-cleanwhite 反馈</li>
+</ul>
+<blockquote>
+<p>作者把 <em>谁在使用</em> 置顶到issue了，跑过去第一个登记了自己 😉 &lsquo;Glad to be helpful&rsquo;</p>
+</blockquote>
+<ul>
+<li>3.国庆过得好快</li>
+</ul>
+<blockquote>
+<p>也许是因为自己一直在写代码，感觉这几天过得好快，人总会有各种各样的事情缠着你。想要在有限的时间去做一些真正有意义的事情，工作这么多年，实际对社会
+有贡献，对人生有意义，对大家有价值的东西太少了。人活着不该只为了钱对吗？何况自己依旧孑然一身。问自己一个问题，这辈子做成了什么事情能让自己年老时
+不至于羞愤懊悔。我想，社会把你绑在车轮上，但你始终有选择的余地不是吗？也许不是世界太嘈杂，只是自己不够宁静致远。</p>
+</blockquote>
+<ul>
+<li>4.gateway开发体验好了</li>
+</ul>
+<blockquote>
+<p>早年尝试使用gateway开发的时候，自己云里雾里的。不知道是因为自己技术变强了还是gateway完善了。不过始终不够开箱即用啊，过几天研究下soul网关(ShenYu)
+看看能不能贡献些代码，一起做个开箱即用的产品出来。感慨这几年遇到的大神，xxl许雪里、discovery军哥、apollo宋顺、spring4all翟永超、dromara xiaoyu，
+有的有比较深入的接触，有的只是在线下见过，有的讨论过issue，有的只在群里聊过几句，甚至有些不愿意提及的渣人都没有列出来，所有人做成一个成功的项目，
+其社区宣传、影响力、作品产品完善程度与生产验证搜集bug驱动产品进步，无一不是把社区产品迭代做得比较好。一个好的产品要具有前瞻性、要足够完善、要bug
+少可验证，更重要的是，要有弥补空白的定位。如果定位与其他产品重叠，一定要有足够痛的点让人想完成迁移。apache社区号称社区大于产品，有人才能有产品，
+一个人做多久都不可能完成一个完善的产品，即便可以，那付出的精力不可能是在满足生活前提下完成的。要足够visionary，要足够responsible，更关心产品，
+更想要表达。</p>
+</blockquote>
+<ul>
+<li>5.springfox-oas 居然不支持 X-Forwarded-Prefix</li>
+</ul>
+<blockquote>
+<p>这个功能在早前swagger2.0的时候就已经支持了，在swagger3.0的webflux版本看着也是支持的，为什么在这个mvc版本不支持，有点令人疑惑，是不是也应该
+去提个issue来升级一下这个feature。</p>
+</blockquote>
 <hr>
 <ul class=pager>
 <li class=previous>
