@@ -1,104 +1,13 @@
-<!doctype html><html lang=zh-cn>
-<head>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge">
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta property="og:site_name" content="月白 Yuebaix Blog">
-<meta property="og:type" content="article">
-<meta property="og:image" content="https://blog.yuebaix.com/img/home-bg-jeep.jpg">
-<meta property="twitter:image" content="https://blog.yuebaix.com/img/home-bg-jeep.jpg">
-<meta name=title content="七天构建SpringCloud集群">
-<meta property="og:title" content="七天构建SpringCloud集群">
-<meta property="twitter:title" content="七天构建SpringCloud集群">
-<meta name=description content="服务注册、在线文档">
-<meta property="og:description" content="服务注册、在线文档">
-<meta property="twitter:description" content="服务注册、在线文档">
-<meta property="twitter:card" content="summary">
-<meta name=keyword content="月白, yuebaix, Yuebaix, , 月白的博客, Yuebaix Blog, 博客, 个人网站, 互联网, Web, Spring, Springboot, Spring Cloud, Webflux, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
-<link rel="shortcut icon" href=/img/favicon.ico>
-<title>七天构建SpringCloud集群-月白的博客 | Yuebaix Blog</title>
-<link rel=canonical href=/2021/10/03/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/>
-<link rel=stylesheet href=/css/iDisqus.min.css>
-<link rel=stylesheet href=/css/bootstrap.min.css>
-<link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css>
-<link rel=stylesheet href=/css/zanshang.css>
-<link href=//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css rel=stylesheet type=text/css>
-<script src=/js/jquery.min.js></script>
-<script src=/js/bootstrap.min.js></script>
-<script src=/js/hux-blog.min.js></script>
-</head>
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-<div class=container-fluid>
-<div class="navbar-header page-scroll">
-<button type=button class=navbar-toggle>
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="月白 Yuebaix Blog"><meta property="og:type" content="article"><meta property="og:image" content="https://yuebaix.github.io/img/home-bg-jeep.jpg"><meta property="twitter:image" content="https://yuebaix.github.io/img/home-bg-jeep.jpg"><meta name=title content="七天构建SpringCloud集群"><meta property="og:title" content="七天构建SpringCloud集群"><meta property="twitter:title" content="七天构建SpringCloud集群"><meta name=description content="服务注册、在线文档"><meta property="og:description" content="服务注册、在线文档"><meta property="twitter:description" content="服务注册、在线文档"><meta property="twitter:card" content="summary"><meta name=keyword content="月白, yuebaix, Yuebaix, , 月白的博客, Yuebaix Blog, 博客, 个人网站, 互联网, Web, Spring, Springboot, Spring Cloud, Webflux, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice"><link rel="shortcut icon" href=/img/favicon.ico><title>七天构建SpringCloud集群-月白的博客 | Yuebaix Blog</title><link rel=canonical href=/2021/10/03/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/><link rel=stylesheet href=/css/iDisqus.min.css><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/hux-blog.min.js></script></head><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
 <span class=sr-only>Toggle navigation</span>
-<span class=icon-bar></span>
-<span class=icon-bar></span>
-<span class=icon-bar></span>
-</button>
-<a class=navbar-brand href=/>月白 Yuebaix Blog</a>
-</div>
-<div id=huxblog_navbar>
-<div class=navbar-collapse>
-<ul class="nav navbar-nav navbar-right">
-<li>
-<a href=/>Home</a>
-</li>
-<li>
-<a href=/categories/life>life</a>
-</li>
-<li>
-<a href=/categories/tech>tech</a>
-</li>
-<li><a href=/top/archive/>ARCHIVE</a></li>
-<li><a href=/top/links/>LINKS</a></li>
-<li><a href=/top/about/>ABOUT</a></li>
-</ul>
-</div>
-</div>
-</div>
-</nav>
-<script>var $body=document.body,$toggle=document.querySelector('.navbar-toggle'),$navbar=document.querySelector('#huxblog_navbar'),$collapse=document.querySelector('.navbar-collapse');$toggle.addEventListener('click',handleMagic);function handleMagic(a){$navbar.className.indexOf('in')>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf('in')<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script>
-<style type=text/css>header.intro-header{background-image:url(/img/home-bg-jeep.jpg)}</style>
-<header class=intro-header>
-<div class=container>
-<div class=row>
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<div class=post-heading>
-<div class=tags>
-<a class=tag href=/tags/%E5%B9%B2%E8%B4%A7 title=干货>
-干货
-</a>
-<a class=tag href=/tags/%E6%95%99%E7%A8%8B title=教程>
-教程
-</a>
-</div>
-<h1>七天构建SpringCloud集群</h1>
-<h2 class=subheading>day3：集群启动</h2>
-<span class=meta>
-Posted by
+<span class=icon-bar></span><span class=icon-bar></span><span class=icon-bar></span></button>
+<a class=navbar-brand href=/>月白 Yuebaix Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>Home</a></li><li><a href=/categories/life>life</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/top/archive/>ARCHIVE</a></li><li><a href=/top/links/>LINKS</a></li><li><a href=/top/about/>ABOUT</a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector('.navbar-toggle'),$navbar=document.querySelector('#huxblog_navbar'),$collapse=document.querySelector('.navbar-collapse');$toggle.addEventListener('click',handleMagic);function handleMagic(a){$navbar.className.indexOf('in')>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf('in')<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/home-bg-jeep.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/%E5%B9%B2%E8%B4%A7 title=干货>干货</a>
+<a class=tag href=/tags/%E6%95%99%E7%A8%8B title=教程>教程</a></div><h1>七天构建SpringCloud集群</h1><h2 class=subheading>day3：集群启动</h2><span class=meta>Posted by
 月白
 on
-Sunday, October 3, 2021
-</span>
-</div>
-</div>
-</div>
-</div>
-</header>
-<article>
-<div class=container>
-<div class=row>
-<div class="col-lg-8 col-lg-offset-2
+Sunday, October 3, 2021</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
 col-md-10 col-md-offset-1
-post-container">
-<p>项目地址：<a href=https://github.com/yuebaix/jiuzhou>jiuzhou (九州) https://github.com/yuebaix/jiuzhou</a></p>
-<a style=display:inline-block;width:400px;height:170px target=_blank href=https://github.com/yuebaix/jiuzhou>
-<img align=left src="https://github-readme-stats.vercel.app/api/pin/?username=yuebaix&theme=highcontrast&repo=jiuzhou">
-</a>
-<h2 id=一完成服务注册功能>一、完成服务注册功能</h2>
-<p>1.引入zookeeper、spring-cloud-starter-zookeeper-discovery依赖</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>ext <span style=color:#ff79c6>{</span>
+post-container"><p>项目地址：<a href=https://github.com/yuebaix/jiuzhou>jiuzhou (九州) https://github.com/yuebaix/jiuzhou</a></p><a style=display:inline-block;width:400px;height:170px target=_blank href=https://github.com/yuebaix/jiuzhou><img align=left src="https://github-readme-stats.vercel.app/api/pin/?username=yuebaix&theme=highcontrast&repo=jiuzhou"></a><h2 id=一完成服务注册功能>一、完成服务注册功能</h2><p>1.引入zookeeper、spring-cloud-starter-zookeeper-discovery依赖</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>ext <span style=color:#ff79c6>{</span>
     zookeeperVersion <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#39;3.7.0&#39;</span>
 <span style=color:#ff79c6>}</span>
 
@@ -114,8 +23,7 @@ dependencies <span style=color:#ff79c6>{</span>
         exclude <span style=color:#8be9fd;font-style:italic>group:</span> <span style=color:#f1fa8c>&#39;org.slf4j&#39;</span><span style=color:#ff79c6>,</span> <span style=color:#8be9fd;font-style:italic>module:</span> <span style=color:#f1fa8c>&#39;slf4j-log4j12&#39;</span>
     <span style=color:#ff79c6>}</span>
 <span style=color:#ff79c6>}</span>
-</code></pre></div><p>2.配置文件application.properties添加服务发现配置</p>
-<pre tabindex=0><code class=language-properties data-lang=properties>spring.application.name=app-bizagg
+</code></pre></div><p>2.配置文件application.properties添加服务发现配置</p><pre><code class=language-properties data-lang=properties>spring.application.name=app-bizagg
 
 spring.cloud.inetutils.preferredNetworks[0] = 192
 #spring.cloud.inetutils.preferredNetworks[1] = 172
@@ -127,31 +35,17 @@ spring.cloud.zookeeper.discovery.root=/jiuzhou
 spring.cloud.zookeeper.discovery.instance-host=${spring.cloud.client.ip-address}
 
 server.port=12201
-</code></pre><p>3.启动类添加服务发现注解 @EnableDiscoveryClient</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@EnableDiscoveryClient
+</code></pre><p>3.启动类添加服务发现注解 @EnableDiscoveryClient</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@EnableDiscoveryClient
 @SpringBootApplication
 <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>BizAggApp</span> <span style=color:#ff79c6>{</span>
     <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>static</span> <span style=color:#8be9fd>void</span> <span style=color:#50fa7b>main</span><span style=color:#ff79c6>(</span>String<span style=color:#ff79c6>[]</span> args<span style=color:#ff79c6>)</span> <span style=color:#ff79c6>{</span>
         SpringApplication<span style=color:#ff79c6>.</span><span style=color:#50fa7b>run</span><span style=color:#ff79c6>(</span>BizAggApp<span style=color:#ff79c6>.</span><span style=color:#50fa7b>class</span><span style=color:#ff79c6>,</span> args<span style=color:#ff79c6>);</span>
     <span style=color:#ff79c6>}</span>
 <span style=color:#ff79c6>}</span>
-</code></pre></div><p>4.改动变更到所有服务并进行启动测试</p>
-<p>
-<img src=/pic/2021_10_03/services_dashboard.png alt>
-</p>
-<p>
-<img src=/pic/2021_10_03/zkCli.png alt>
-</p>
-<p>
-<img src=/pic/2021_10_03/registry_json.png alt>
-</p>
-<h2 id=二完成swagger文档功能>二、完成swagger文档功能</h2>
-<p>1.添加swagger文档相关gradle配置</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>implementation <span style=color:#f1fa8c>&#39;io.swagger:swagger-annotations&#39;</span>
+</code></pre></div><p>4.改动变更到所有服务并进行启动测试</p><p><img src=/pic/2021_10_03/services_dashboard.png alt></p><p><img src=/pic/2021_10_03/zkCli.png alt></p><p><img src=/pic/2021_10_03/registry_json.png alt></p><h2 id=二完成swagger文档功能>二、完成swagger文档功能</h2><p>1.添加swagger文档相关gradle配置</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>implementation <span style=color:#f1fa8c>&#39;io.swagger:swagger-annotations&#39;</span>
 implementation <span style=color:#f1fa8c>&#39;io.swagger:swagger-models&#39;</span>
 implementation <span style=color:#f1fa8c>&#39;io.springfox:springfox-boot-starter&#39;</span>
-</code></pre></div><p>2.添加swagger配置文件</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@Configuration
+</code></pre></div><p>2.添加swagger配置文件</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@Configuration
 @EnableOpenApi
 @Slf4j
 <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>SwaggerConfig</span> <span style=color:#ff79c6>{</span>
@@ -179,149 +73,25 @@ implementation <span style=color:#f1fa8c>&#39;io.springfox:springfox-boot-starte
                 <span style=color:#ff79c6>.</span><span style=color:#50fa7b>build</span><span style=color:#ff79c6>();</span>
     <span style=color:#ff79c6>}</span>
 <span style=color:#ff79c6>}</span>
-</code></pre></div><p>3.改动变更到所有服务并进行启动测试</p>
-<p><a href=http://localhost:12001/swagger-ui/>http://localhost:12001/swagger-ui/</a></p>
-<p><a href=http://localhost:12001/doc.html>http://localhost:12001/doc.html</a></p>
-<p>
-<img src=/pic/2021_10_03/swagger_doc.png alt>
-</p>
-<p>
-<img src=/pic/2021_10_03/knife_doc.png alt>
-</p>
-<h2 id=三开发日志>三、开发日志</h2>
-<ul>
-<li>1.apollo-quick-start PR 反馈</li>
-</ul>
-<blockquote>
-<p>今天apollo-quick-start的PR被宋顺老师反馈了，对问的问题做了一些解释。根据提的要求重新修改了下代码，顺便添加了环境变量自定义数据库密码的变更。
-继续等待反馈……</p>
-</blockquote>
-<ul>
-<li>2.hugo-theme-cleanwhite 新讨论</li>
-</ul>
-<blockquote>
-<p>希望博客能添加back-to-top功能，于是到赵化冰老师的仓库提了一个讨论issue，被反馈最近新增了侧边栏catalog功能，可以用这个代替。回复“肥肠奶司”……
+</code></pre></div><p>3.改动变更到所有服务并进行启动测试</p><p><a href=http://localhost:12001/swagger-ui/>http://localhost:12001/swagger-ui/</a></p><p><a href=http://localhost:12001/doc.html>http://localhost:12001/doc.html</a></p><p><img src=/pic/2021_10_03/swagger_doc.png alt></p><p><img src=/pic/2021_10_03/knife_doc.png alt></p><h2 id=三开发日志>三、开发日志</h2><ul><li>1.apollo-quick-start PR 反馈</li></ul><blockquote><p>今天apollo-quick-start的PR被宋顺老师反馈了，对问的问题做了一些解释。根据提的要求重新修改了下代码，顺便添加了环境变量自定义数据库密码的变更。
+继续等待反馈……</p></blockquote><ul><li>2.hugo-theme-cleanwhite 新讨论</li></ul><blockquote><p>希望博客能添加back-to-top功能，于是到赵化冰老师的仓库提了一个讨论issue，被反馈最近新增了侧边栏catalog功能，可以用这个代替。回复“肥肠奶司”……
 后续添加了一个谁在使用的讨论issue，赵化冰老师同意了，于是我参照ApiSix编辑了一份markdown文档发给了他，期待不久能看到置顶issue，毕竟hugo圈子里
-对中文网站风格友好的主题不太多，可以站出来分享给更多需要的人。</p>
-</blockquote>
-<ul>
-<li>3.开始开发服务注册</li>
-</ul>
-<blockquote>
-<p>开始开发服务注册，马上要启动一堆的服务，本机内存到时候估计捉襟见肘，想了下，全周期的过程中只有zk是必须的，其他的就先停着吧，最后把其他组件启动起来
-测试一轮就OK</p>
-</blockquote>
-<p>
-<img src=/pic/2021_10_03/docker_desktop_zk.png alt>
-</p>
-<ul>
-<li>4.国庆的两种人</li>
-</ul>
-<blockquote>
-<p>据我观察，开发大牛们国庆期间有两种人。一种是结婚的……比如spring cloud alibaba的开源负责人，朋友圈发了结婚的照片，应该年纪也不小了才结婚，想想
+对中文网站风格友好的主题不太多，可以站出来分享给更多需要的人。</p></blockquote><ul><li>3.开始开发服务注册</li></ul><blockquote><p>开始开发服务注册，马上要启动一堆的服务，本机内存到时候估计捉襟见肘，想了下，全周期的过程中只有zk是必须的，其他的就先停着吧，最后把其他组件启动起来
+测试一轮就OK</p></blockquote><p><img src=/pic/2021_10_03/docker_desktop_zk.png alt></p><ul><li>4.国庆的两种人</li></ul><blockquote><p>据我观察，开发大牛们国庆期间有两种人。一种是结婚的……比如spring cloud alibaba的开源负责人，朋友圈发了结婚的照片，应该年纪也不小了才结婚，想想
 自己可能是不是也不用着急；一种是在github上活跃的，我都没期待这几天他们能有啥反馈，结果今天各位能回复的都回复了，看了下各位强人不少人跟我一样在家
-里还在写代码。勤奋是YOLO精神(you only live once)的一剂良药。</p>
-</blockquote>
-<ul>
-<li>5.感慨ApiSix的社区很规范</li>
-</ul>
-<blockquote>
-<p>apache整个社区的成功不仅是开源精神所引领，而且各种制度都比较完备，像contributor -> committer -> mentor -> pmc这样的晋升，还有项目孵化
+里还在写代码。勤奋是YOLO精神(you only live once)的一剂良药。</p></blockquote><ul><li>5.感慨ApiSix的社区很规范</li></ul><blockquote><p>apache整个社区的成功不仅是开源精神所引领，而且各种制度都比较完备，像contributor -> committer -> mentor -> pmc这样的晋升，还有项目孵化
 准入到后续维护，背后需要付出很大的努力。说白了开源就是干活，有了社区规则跟运营规范，可以保证项目长期进行下去并且不会烂尾，能保证产品能真正做起来。
-每个人的时间是有限的，技术栈也是有限的。选对方向、选对社区比较重要。</p>
-</blockquote>
-<hr>
-<ul class=pager>
-<li class=previous>
-<a href=/2021/10/02/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/ data-toggle=tooltip data-placement=top title=七天构建SpringCloud集群>&larr;
-Previous Post</a>
-</li>
-<li class=next>
-<a href=/2021/10/04/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/ data-toggle=tooltip data-placement=top title=七天构建SpringCloud集群>Next
-Post &rarr;</a>
-</li>
-</ul>
-<div id=disqus-comment></div>
-</div>
-<div class="col-lg-2 col-lg-offset-0
+每个人的时间是有限的，技术栈也是有限的。选对方向、选对社区比较重要。</p></blockquote><hr><ul class=pager><li class=previous><a href=/2021/10/02/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/ data-toggle=tooltip data-placement=top title=七天构建SpringCloud集群>&larr;
+Previous Post</a></li><li class=next><a href=/2021/10/04/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/ data-toggle=tooltip data-placement=top title=七天构建SpringCloud集群>Next
+Post &rarr;</a></li></ul><div id=disqus-comment></div></div><div class="col-lg-2 col-lg-offset-0
 visible-lg-block
 sidebar-container
-catalog-container">
-<div class=side-catalog>
-<hr class="hidden-sm hidden-xs">
-<h5>
-<a class=catalog-toggle href=#>CATALOG</a>
-</h5>
-<ul class=catalog-body></ul>
-</div>
-</div>
-<div class="col-lg-11 col-lg-offset-1
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-11 col-lg-offset-1
 col-md-10 col-md-offset-1
-sidebar-container">
-<section>
-<hr class="hidden-sm hidden-xs">
-<h5><a href=/tags/>FEATURED TAGS</a></h5>
-<div class=tags>
-<a href=/tags/%E4%BC%A0%E5%A5%87 title=传奇>
-传奇
-</a>
-<a href=/tags/%E5%B9%B2%E8%B4%A7 title=干货>
-干货
-</a>
-<a href=/tags/%E6%84%9F%E6%82%9F title=感悟>
-感悟
-</a>
-<a href=/tags/%E6%95%99%E7%A8%8B title=教程>
-教程
-</a>
-<a href=/tags/%E9%97%B2%E8%B0%88 title=闲谈>
-闲谈
-</a>
-</div>
-</section>
-<section>
-<hr>
-<h5>FRIENDS</h5>
-<ul class=list-inline>
-<li><a target=_blank href=https://yloopdaed.icu/>yloopdaed的博客</a></li>
-</ul>
-</section>
-</div>
-</div>
-</div>
-</article>
-<footer>
-<div class=container>
-<div class=row>
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<ul class="list-inline text-center">
-<li>
-<a href=mailto:yuebaix@outlook.com>
-<span class="fa-stack fa-lg">
-<i class="fas fa-circle fa-stack-2x"></i>
-<i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
-</span>
-</a>
-</li>
-<li>
-<a target=_blank href=https://github.com/yuebaix>
-<span class="fa-stack fa-lg">
-<i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-github fa-stack-1x fa-inverse"></i>
-</span>
-</a>
-</li>
-</ul>
-<p class="copyright text-muted">
-Copyright &copy; 月白 Yuebaix Blog 2021
-</p>
-</div>
-</div>
-</div>
-</footer>
-<script>function loadAsync(f,b){var c=document,d='script',a=c.createElement(d),e=c.getElementsByTagName(d)[0];a.src=f,b&&a.addEventListener('load',function(a){b(null,a)},!1),e.parentNode.insertBefore(a,e)}</script>
-<script>$('#tag_cloud').length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:'#bbbbee',end:'#0085a1'}},$('#tag_cloud a').tagcloud()})</script>
-<script>loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js",function(){var a=document.querySelector("nav");a&&FastClick.attach(a)})</script>
-<script type=text/javascript>function generateCatalog(a){_containerSelector='div.post-container';var h=$(_containerSelector),c,d,e,f,g,b;return c=h.find('h1,h2,h3,h4,h5,h6'),$(a).html(''),c.each(function(){d=$(this).prop('tagName').toLowerCase(),g="#"+$(this).prop('id'),e=$(this).text(),b=$('<a href="'+g+'" rel="nofollow">'+e+'</a>'),f=$('<li class="'+d+'_nav"></li>').append(b),$(a).append(f)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(a){a.preventDefault(),$('.side-catalog').toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$('.catalog-body').onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script>
-</body>
-</html>
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/%E4%BC%A0%E5%A5%87 title=传奇>传奇</a>
+<a href=/tags/%E5%B9%B2%E8%B4%A7 title=干货>干货</a>
+<a href=/tags/%E6%84%9F%E6%82%9F title=感悟>感悟</a>
+<a href=/tags/%E6%95%99%E7%A8%8B title=教程>教程</a>
+<a href=/tags/%E9%97%B2%E8%B0%88 title=闲谈>闲谈</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://yloopdaed.icu/>yloopdaed的博客</a></li></ul></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:yuebaix@outlook.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/yuebaix><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; 月白 Yuebaix Blog 2024</p></div></div></div></footer><script>function loadAsync(f,b){var c=document,d='script',a=c.createElement(d),e=c.getElementsByTagName(d)[0];a.src=f,b&&a.addEventListener('load',function(a){b(null,a)},!1),e.parentNode.insertBefore(a,e)}</script><script>$('#tag_cloud').length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:'#bbbbee',end:'#0085a1'}},$('#tag_cloud a').tagcloud()})</script><script>loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js",function(){var a=document.querySelector("nav");a&&FastClick.attach(a)})</script><script type=text/javascript>function generateCatalog(a){_containerSelector='div.post-container';var h=$(_containerSelector),c,d,e,f,g,b;return c=h.find('h1,h2,h3,h4,h5,h6'),$(a).html(''),c.each(function(){d=$(this).prop('tagName').toLowerCase(),g="#"+$(this).prop('id'),e=$(this).text(),b=$('<a href="'+g+'" rel="nofollow">'+e+'</a>'),f=$('<li class="'+d+'_nav"></li>').append(b),$(a).append(f)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(a){a.preventDefault(),$('.side-catalog').toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$('.catalog-body').onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>

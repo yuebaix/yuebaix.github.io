@@ -1,107 +1,14 @@
-<!doctype html><html lang=zh-cn>
-<head>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge">
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta property="og:site_name" content="月白 Yuebaix Blog">
-<meta property="og:type" content="article">
-<meta property="og:image" content="https://blog.yuebaix.com/img/home-bg-jeep.jpg">
-<meta property="twitter:image" content="https://blog.yuebaix.com/img/home-bg-jeep.jpg">
-<meta name=title content="七天构建SpringCloud集群">
-<meta property="og:title" content="七天构建SpringCloud集群">
-<meta property="twitter:title" content="七天构建SpringCloud集群">
-<meta name=description content="服务调用、文档集中">
-<meta property="og:description" content="服务调用、文档集中">
-<meta property="twitter:description" content="服务调用、文档集中">
-<meta property="twitter:card" content="summary">
-<meta name=keyword content="月白, yuebaix, Yuebaix, , 月白的博客, Yuebaix Blog, 博客, 个人网站, 互联网, Web, Spring, Springboot, Spring Cloud, Webflux, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice">
-<link rel="shortcut icon" href=/img/favicon.ico>
-<title>七天构建SpringCloud集群-月白的博客 | Yuebaix Blog</title>
-<link rel=canonical href=/2021/10/04/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/>
-<link rel=stylesheet href=/css/iDisqus.min.css>
-<link rel=stylesheet href=/css/bootstrap.min.css>
-<link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css>
-<link rel=stylesheet href=/css/zanshang.css>
-<link href=//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css rel=stylesheet type=text/css>
-<script src=/js/jquery.min.js></script>
-<script src=/js/bootstrap.min.js></script>
-<script src=/js/hux-blog.min.js></script>
-</head>
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-<div class=container-fluid>
-<div class="navbar-header page-scroll">
-<button type=button class=navbar-toggle>
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:site_name" content="月白 Yuebaix Blog"><meta property="og:type" content="article"><meta property="og:image" content="https://yuebaix.github.io/img/home-bg-jeep.jpg"><meta property="twitter:image" content="https://yuebaix.github.io/img/home-bg-jeep.jpg"><meta name=title content="七天构建SpringCloud集群"><meta property="og:title" content="七天构建SpringCloud集群"><meta property="twitter:title" content="七天构建SpringCloud集群"><meta name=description content="服务调用、文档集中"><meta property="og:description" content="服务调用、文档集中"><meta property="twitter:description" content="服务调用、文档集中"><meta property="twitter:card" content="summary"><meta name=keyword content="月白, yuebaix, Yuebaix, , 月白的博客, Yuebaix Blog, 博客, 个人网站, 互联网, Web, Spring, Springboot, Spring Cloud, Webflux, 云原生, PaaS, Istio, Kubernetes, 微服务, Microservice"><link rel="shortcut icon" href=/img/favicon.ico><title>七天构建SpringCloud集群-月白的博客 | Yuebaix Blog</title><link rel=canonical href=/2021/10/04/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/><link rel=stylesheet href=/css/iDisqus.min.css><link rel=stylesheet href=/css/bootstrap.min.css><link rel=stylesheet href=/css/hugo-theme-cleanwhite.min.css><link rel=stylesheet href=/css/zanshang.css><link href=//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css rel=stylesheet type=text/css><script src=/js/jquery.min.js></script><script src=/js/bootstrap.min.js></script><script src=/js/hux-blog.min.js></script></head><nav class="navbar navbar-default navbar-custom navbar-fixed-top"><div class=container-fluid><div class="navbar-header page-scroll"><button type=button class=navbar-toggle>
 <span class=sr-only>Toggle navigation</span>
-<span class=icon-bar></span>
-<span class=icon-bar></span>
-<span class=icon-bar></span>
-</button>
-<a class=navbar-brand href=/>月白 Yuebaix Blog</a>
-</div>
-<div id=huxblog_navbar>
-<div class=navbar-collapse>
-<ul class="nav navbar-nav navbar-right">
-<li>
-<a href=/>Home</a>
-</li>
-<li>
-<a href=/categories/life>life</a>
-</li>
-<li>
-<a href=/categories/tech>tech</a>
-</li>
-<li><a href=/top/archive/>ARCHIVE</a></li>
-<li><a href=/top/links/>LINKS</a></li>
-<li><a href=/top/about/>ABOUT</a></li>
-</ul>
-</div>
-</div>
-</div>
-</nav>
-<script>var $body=document.body,$toggle=document.querySelector('.navbar-toggle'),$navbar=document.querySelector('#huxblog_navbar'),$collapse=document.querySelector('.navbar-collapse');$toggle.addEventListener('click',handleMagic);function handleMagic(a){$navbar.className.indexOf('in')>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf('in')<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script>
-<style type=text/css>header.intro-header{background-image:url(/img/home-bg-jeep.jpg)}</style>
-<header class=intro-header>
-<div class=container>
-<div class=row>
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<div class=post-heading>
-<div class=tags>
-<a class=tag href=/tags/%E5%B9%B2%E8%B4%A7 title=干货>
-干货
-</a>
-<a class=tag href=/tags/%E6%95%99%E7%A8%8B title=教程>
-教程
-</a>
-</div>
-<h1>七天构建SpringCloud集群</h1>
-<h2 class=subheading>day4：集群通信</h2>
-<span class=meta>
-Posted by
+<span class=icon-bar></span><span class=icon-bar></span><span class=icon-bar></span></button>
+<a class=navbar-brand href=/>月白 Yuebaix Blog</a></div><div id=huxblog_navbar><div class=navbar-collapse><ul class="nav navbar-nav navbar-right"><li><a href=/>Home</a></li><li><a href=/categories/life>life</a></li><li><a href=/categories/tech>tech</a></li><li><a href=/top/archive/>ARCHIVE</a></li><li><a href=/top/links/>LINKS</a></li><li><a href=/top/about/>ABOUT</a></li></ul></div></div></div></nav><script>var $body=document.body,$toggle=document.querySelector('.navbar-toggle'),$navbar=document.querySelector('#huxblog_navbar'),$collapse=document.querySelector('.navbar-collapse');$toggle.addEventListener('click',handleMagic);function handleMagic(a){$navbar.className.indexOf('in')>0?($navbar.className=" ",setTimeout(function(){$navbar.className.indexOf('in')<0&&($collapse.style.height="0px")},400)):($collapse.style.height="auto",$navbar.className+=" in")}</script><style type=text/css>header.intro-header{background-image:url(/img/home-bg-jeep.jpg)}</style><header class=intro-header><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><div class=tags><a class=tag href=/tags/%E5%B9%B2%E8%B4%A7 title=干货>干货</a>
+<a class=tag href=/tags/%E6%95%99%E7%A8%8B title=教程>教程</a></div><h1>七天构建SpringCloud集群</h1><h2 class=subheading>day4：集群通信</h2><span class=meta>Posted by
 月白
 on
-Monday, October 4, 2021
-</span>
-</div>
-</div>
-</div>
-</div>
-</header>
-<article>
-<div class=container>
-<div class=row>
-<div class="col-lg-8 col-lg-offset-2
+Monday, October 4, 2021</span></div></div></div></div></header><article><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2
 col-md-10 col-md-offset-1
-post-container">
-<p>项目地址：<a href=https://github.com/yuebaix/jiuzhou>jiuzhou (九州) https://github.com/yuebaix/jiuzhou</a></p>
-<a style=display:inline-block;width:400px;height:170px target=_blank href=https://github.com/yuebaix/jiuzhou>
-<img align=left src="https://github-readme-stats.vercel.app/api/pin/?username=yuebaix&theme=highcontrast&repo=jiuzhou">
-</a>
-<h2 id=一服务调用>一、服务调用</h2>
-<h3 id=1在bizfacade中开发feignclient>1.在bizfacade中开发feignClient</h3>
-<p>bizfacade添加gradle依赖</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>implementation <span style=color:#f1fa8c>&#39;org.springframework.cloud:spring-cloud-starter-openfeign&#39;</span>
-</code></pre></div><p>创建feignClient</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>interface</span> <span style=color:#50fa7b>BizFacadeConst</span> <span style=color:#ff79c6>{</span>
+post-container"><p>项目地址：<a href=https://github.com/yuebaix/jiuzhou>jiuzhou (九州) https://github.com/yuebaix/jiuzhou</a></p><a style=display:inline-block;width:400px;height:170px target=_blank href=https://github.com/yuebaix/jiuzhou><img align=left src="https://github-readme-stats.vercel.app/api/pin/?username=yuebaix&theme=highcontrast&repo=jiuzhou"></a><h2 id=一服务调用>一、服务调用</h2><h3 id=1在bizfacade中开发feignclient>1.在bizfacade中开发feignClient</h3><p>bizfacade添加gradle依赖</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>implementation <span style=color:#f1fa8c>&#39;org.springframework.cloud:spring-cloud-starter-openfeign&#39;</span>
+</code></pre></div><p>创建feignClient</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>interface</span> <span style=color:#50fa7b>BizFacadeConst</span> <span style=color:#ff79c6>{</span>
     String SVC_UAA <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;svc-uaa&#34;</span><span style=color:#ff79c6>;</span>
     String APP_BIZ <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;app-biz&#34;</span><span style=color:#ff79c6>;</span>
     String APP_BIZAGG <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;app-bizagg&#34;</span><span style=color:#ff79c6>;</span>
@@ -127,15 +34,11 @@ post-container">
         <span style=color:#ff79c6>};</span>
     <span style=color:#ff79c6>}</span>
 <span style=color:#ff79c6>}</span>
-</code></pre></div><h3 id=2在bizagg中引入bizfacade实现应用调用>2.在bizagg中引入bizfacade实现应用调用</h3>
-<p>bizagg添加gradle依赖</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>implementation <span style=color:#f1fa8c>&#39;org.springframework.cloud:spring-cloud-starter-openfeign&#39;</span>
+</code></pre></div><h3 id=2在bizagg中引入bizfacade实现应用调用>2.在bizagg中引入bizfacade实现应用调用</h3><p>bizagg添加gradle依赖</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>implementation <span style=color:#f1fa8c>&#39;org.springframework.cloud:spring-cloud-starter-openfeign&#39;</span>
 implementation <span style=color:#50fa7b>project</span><span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#39;:app:jiuzhou-bizfacade&#39;</span><span style=color:#ff79c6>)</span>
-</code></pre></div><p>application.properties添加配置</p>
-<pre tabindex=0><code class=language-properties data-lang=properties>feign.client.config.default.logger-level = full
+</code></pre></div><p>application.properties添加配置</p><pre><code class=language-properties data-lang=properties>feign.client.config.default.logger-level = full
 feign.circuitbreaker.enabled=true
-</code></pre><p>启动类增加feign开启注解@EnableFeignClients以及修正包扫描配置，此处需要扫描到bizfacade中的fallbackFactory的Component</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@EnableFeignClients<span style=color:#ff79c6>(</span>basePackages <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;com.yuebaix.jiuzhou.app.bizfacade&#34;</span><span style=color:#ff79c6>)</span>
+</code></pre><p>启动类增加feign开启注解@EnableFeignClients以及修正包扫描配置，此处需要扫描到bizfacade中的fallbackFactory的Component</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@EnableFeignClients<span style=color:#ff79c6>(</span>basePackages <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;com.yuebaix.jiuzhou.app.bizfacade&#34;</span><span style=color:#ff79c6>)</span>
 @EnableDiscoveryClient
 @SpringBootApplication<span style=color:#ff79c6>(</span>scanBasePackages <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;com.yuebaix.jiuzhou&#34;</span><span style=color:#ff79c6>)</span>
 <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>BizAggApp</span> <span style=color:#ff79c6>{</span>
@@ -143,8 +46,7 @@ feign.circuitbreaker.enabled=true
         SpringApplication<span style=color:#ff79c6>.</span><span style=color:#50fa7b>run</span><span style=color:#ff79c6>(</span>BizAggApp<span style=color:#ff79c6>.</span><span style=color:#50fa7b>class</span><span style=color:#ff79c6>,</span> args<span style=color:#ff79c6>);</span>
     <span style=color:#ff79c6>}</span>
 <span style=color:#ff79c6>}</span>
-</code></pre></div><p>添加测试接口</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@Api<span style=color:#ff79c6>(</span>tags <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;示例接口&#34;</span><span style=color:#ff79c6>)</span>
+</code></pre></div><p>添加测试接口</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@Api<span style=color:#ff79c6>(</span>tags <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;示例接口&#34;</span><span style=color:#ff79c6>)</span>
 @Slf4j
 @RestController
 @RequestMapping<span style=color:#ff79c6>(</span><span style=color:#f1fa8c>&#34;/demo&#34;</span><span style=color:#ff79c6>)</span>
@@ -174,19 +76,7 @@ feign.circuitbreaker.enabled=true
         <span style=color:#ff79c6>return</span> bizFeignClient<span style=color:#ff79c6>.</span><span style=color:#50fa7b>appName</span><span style=color:#ff79c6>();</span>
     <span style=color:#ff79c6>}</span>
 <span style=color:#ff79c6>}</span>
-</code></pre></div><p>进行调用测试</p>
-<p>
-<img src=/pic/2021_10_04/call_fallback.png alt>
-</p>
-<p>
-<img src=/pic/2021_10_04/call_fallback_error.png alt>
-</p>
-<p>
-<img src=/pic/2021_10_04/call_success.png alt>
-</p>
-<h3 id=3在biz与bizclient中引入feign实现>3.在biz与bizclient中引入feign实现</h3>
-<p>由于调用层级关系，controller有所不同</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#6272a4>//biz中
+</code></pre></div><p>进行调用测试</p><p><img src=/pic/2021_10_04/call_fallback.png alt></p><p><img src=/pic/2021_10_04/call_fallback_error.png alt></p><p><img src=/pic/2021_10_04/call_success.png alt></p><h3 id=3在biz与bizclient中引入feign实现>3.在biz与bizclient中引入feign实现</h3><p>由于调用层级关系，controller有所不同</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#6272a4>//biz中
 </span><span style=color:#6272a4></span>@Api<span style=color:#ff79c6>(</span>tags <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;示例接口&#34;</span><span style=color:#ff79c6>)</span>
 @Slf4j
 @RestController
@@ -209,7 +99,7 @@ feign.circuitbreaker.enabled=true
         <span style=color:#ff79c6>return</span> uaaFeignClient<span style=color:#ff79c6>.</span><span style=color:#50fa7b>appName</span><span style=color:#ff79c6>();</span>
     <span style=color:#ff79c6>}</span>
 <span style=color:#ff79c6>}</span>
-</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#6272a4>//bizclient中
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#6272a4>//bizclient中
 </span><span style=color:#6272a4></span>@Api<span style=color:#ff79c6>(</span>tags <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;示例接口&#34;</span><span style=color:#ff79c6>)</span>
 @Slf4j
 @RestController
@@ -248,14 +138,10 @@ feign.circuitbreaker.enabled=true
         <span style=color:#ff79c6>return</span> bizAggFeignClient<span style=color:#ff79c6>.</span><span style=color:#50fa7b>appName</span><span style=color:#ff79c6>();</span>
     <span style=color:#ff79c6>}</span>
 <span style=color:#ff79c6>}</span>
-</code></pre></div><h2 id=二文档集中>二、文档集中</h2>
-<h3 id=1完成sys-gate对服务的路由>1.完成sys-gate对服务的路由</h3>
-<p>打开gate配置文件application.properties调试配置方便查看转发情况</p>
-<pre tabindex=0><code class=language-properties data-lang=properties>logging.level.org.springframework.cloud.gateway=trace
+</code></pre></div><h2 id=二文档集中>二、文档集中</h2><h3 id=1完成sys-gate对服务的路由>1.完成sys-gate对服务的路由</h3><p>打开gate配置文件application.properties调试配置方便查看转发情况</p><pre><code class=language-properties data-lang=properties>logging.level.org.springframework.cloud.gateway=trace
 spring.cloud.gateway.httpclient.wiretap=true
 spring.cloud.gateway.httpserver.wiretap=true
-</code></pre><p>properties配置路由比较suffer，干脆再加个application.yml来配置路由地址</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#ff79c6>spring</span>:
+</code></pre><p>properties配置路由比较suffer，干脆再加个application.yml来配置路由地址</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#ff79c6>spring</span>:
   <span style=color:#ff79c6>cloud</span>:
     <span style=color:#ff79c6>gateway</span>:
       <span style=color:#ff79c6>routes</span>:
@@ -271,30 +157,19 @@ spring.cloud.gateway.httpserver.wiretap=true
             - Path=/app-biz/**
           <span style=color:#ff79c6>filters</span>:
             - StripPrefix=1
-</code></pre></div><p>再提供一下application.properties路由的配置示例</p>
-<pre tabindex=0><code class=language-properties data-lang=properties>spring.cloud.gateway.routes[0].id=app-bizagg-route
+</code></pre></div><p>再提供一下application.properties路由的配置示例</p><pre><code class=language-properties data-lang=properties>spring.cloud.gateway.routes[0].id=app-bizagg-route
 spring.cloud.gateway.routes[0].uri=lb://app-bizagg
 spring.cloud.gateway.routes[0].predicates[0]=Path=/app-bizagg/**
 spring.cloud.gateway.routes[0].filters[0]=StripPrefix=1
 </code></pre><p>这个时候gate对各个服务的请求就打通了，但是返回的文档内容没有前缀，无法访问到服务上，如果路由前缀跟服务contextPath一致的话应该已经通了，但是这里
-没有设置contextPath，比较受限，一会来解决这个问题。</p>
-<h3 id=2完成swagger接口的路由配置>2.完成swagger接口的路由配置</h3>
-<p>先来解决文档/v3/api-docs返回的json中server地址无前缀的问题</p>
-<blockquote>
-<p>在线文档接口前缀可以自动根据请求地址来自动适配，原理是网关会将请求头<em>X-Forwarded-Prefix</em>进行叠加转发，springfox文档会自动根据这个header来
+没有设置contextPath，比较受限，一会来解决这个问题。</p><h3 id=2完成swagger接口的路由配置>2.完成swagger接口的路由配置</h3><p>先来解决文档/v3/api-docs返回的json中server地址无前缀的问题</p><blockquote><p>在线文档接口前缀可以自动根据请求地址来自动适配，原理是网关会将请求头<em>X-Forwarded-Prefix</em>进行叠加转发，springfox文档会自动根据这个header来
 进行适配。此次开发中，发现有两个变化，一个是gateway会自动将这个header在stripPrefix的插件时自动转发下来；一个是升级open api以后，springfox
-自己的mvc实现的controller把这个功能移除掉了，需要扩展变更上去才可使用。</p>
-</blockquote>
-<p>先设置<em>X-Forwarded-Prefix</em>的转发，实际这个地方默认就是这样的配置。</p>
-<pre tabindex=0><code class=language-properties data-lang=properties>spring.cloud.gateway.x-forwarded.prefix-enabled=true
+自己的mvc实现的controller把这个功能移除掉了，需要扩展变更上去才可使用。</p></blockquote><p>先设置<em>X-Forwarded-Prefix</em>的转发，实际这个地方默认就是这样的配置。</p><pre><code class=language-properties data-lang=properties>spring.cloud.gateway.x-forwarded.prefix-enabled=true
 spring.cloud.gateway.x-forwarded.prefix-append=true
 </code></pre><p>由于springfox在inferredServer这个地方的处理是用spring plugin实现的，所以我们可以自己实现一个一样的插件在它处理出来的server url上添加前缀。
-springfox本身实现的plugin是优先级最高的，所以我们只要实现不配置顺序就可以了。由于各个业务可能都要用，所以就实现在了bizfacade包中。</p>
-<p>在bizfacade的gradle文件中新增依赖</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>implementation <span style=color:#f1fa8c>&#39;javax.servlet:javax.servlet-api&#39;</span>
+springfox本身实现的plugin是优先级最高的，所以我们只要实现不配置顺序就可以了。由于各个业务可能都要用，所以就实现在了bizfacade包中。</p><p>在bizfacade的gradle文件中新增依赖</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>implementation <span style=color:#f1fa8c>&#39;javax.servlet:javax.servlet-api&#39;</span>
 implementation <span style=color:#f1fa8c>&#39;io.springfox:springfox-boot-starter&#39;</span>
-</code></pre></div><p>在bizfacade中实现插件并导入SpringContext</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@Component
+</code></pre></div><p>在bizfacade中实现插件并导入SpringContext</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@Component
 <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>WebMvcXForwardedPrefixOpenApiTransformationFilter</span> <span style=color:#8be9fd;font-style:italic>implements</span> WebMvcOpenApiTransformationFilter <span style=color:#ff79c6>{</span>
     <span style=color:#8be9fd;font-style:italic>private</span> <span style=color:#8be9fd;font-style:italic>static</span> <span style=color:#8be9fd;font-style:italic>final</span> String X_FORWARDED_PREFIX <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;X-Forwarded-Prefix&#34;</span><span style=color:#ff79c6>;</span>
     <span style=color:#8be9fd;font-style:italic>private</span> <span style=color:#8be9fd;font-style:italic>static</span> <span style=color:#8be9fd;font-style:italic>final</span> String COMMA <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;,&#34;</span><span style=color:#ff79c6>;</span>
@@ -336,8 +211,7 @@ implementation <span style=color:#f1fa8c>&#39;io.springfox:springfox-boot-starte
     <span style=color:#ff79c6>}</span>
 <span style=color:#ff79c6>}</span>
 </code></pre></div><p>实现SwaggerResourcesProvider实现路由转换为多definition。一般实现SwaggerResourcesProvider接口即可，这里我是继承InMemorySwaggerResourcesProvider
-来实现的，可以把gateway本身的接口也添加近definition中。</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@Primary
+来实现的，可以把gateway本身的接口也添加近definition中。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>@Primary
 @Configuration
 <span style=color:#8be9fd;font-style:italic>public</span> <span style=color:#8be9fd;font-style:italic>class</span> <span style=color:#50fa7b>GatewayRoutesOasSwaggerResourcesProvider</span> <span style=color:#8be9fd;font-style:italic>extends</span> InMemorySwaggerResourcesProvider <span style=color:#ff79c6>{</span>
     <span style=color:#8be9fd;font-style:italic>protected</span> <span style=color:#8be9fd;font-style:italic>static</span> <span style=color:#8be9fd;font-style:italic>final</span> String API_DOCS_URI <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;/v3/api-docs&#34;</span><span style=color:#ff79c6>;</span>
@@ -377,11 +251,8 @@ implementation <span style=color:#f1fa8c>&#39;io.springfox:springfox-boot-starte
         <span style=color:#ff79c6>return</span> swaggerResource<span style=color:#ff79c6>;</span>
     <span style=color:#ff79c6>}</span>
 <span style=color:#ff79c6>}</span>
-</code></pre></div><h3 id=3进行综合测试>3.进行综合测试</h3>
-<p>为方便测试，对biz-agg配置application.properties进行contextPath的调整，可以与biz-app对照</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>server<span style=color:#ff79c6>.</span><span style=color:#50fa7b>servlet</span><span style=color:#ff79c6>.</span><span style=color:#50fa7b>context</span><span style=color:#ff79c6>-</span>path<span style=color:#ff79c6>=/</span>app<span style=color:#ff79c6>-</span>bizagg
-</code></pre></div><p>修改网关对应的转发配置</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#ff79c6>spring</span>:
+</code></pre></div><h3 id=3进行综合测试>3.进行综合测试</h3><p>为方便测试，对biz-agg配置application.properties进行contextPath的调整，可以与biz-app对照</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-groovy data-lang=groovy>server<span style=color:#ff79c6>.</span><span style=color:#50fa7b>servlet</span><span style=color:#ff79c6>.</span><span style=color:#50fa7b>context</span><span style=color:#ff79c6>-</span>path<span style=color:#ff79c6>=/</span>app<span style=color:#ff79c6>-</span>bizagg
+</code></pre></div><p>修改网关对应的转发配置</p><div class=highlight><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#ff79c6>spring</span>:
   <span style=color:#ff79c6>cloud</span>:
     <span style=color:#ff79c6>gateway</span>:
       <span style=color:#ff79c6>routes</span>:
@@ -391,153 +262,30 @@ implementation <span style=color:#f1fa8c>&#39;io.springfox:springfox-boot-starte
             - Path=/app-bizagg/**
 <span style=color:#6272a4>#          filters:</span>
 <span style=color:#6272a4>#            - StripPrefix=1</span>
-</code></pre></div><p>
-<img src=/pic/2021_10_04/gate_knife_doc.png alt>
-</p>
-<p>
-<img src=/pic/2021_10_04/gate_knife_doc_definitions.png alt>
-</p>
-<h3 id=4总结>4.总结</h3>
-<p>到这里在线文档聚合这个功能就已经完善了。其实还可以实现一个GlobalFilter去添加自定义header，并在swagger插件中对自定义header进行识别转换
-inferredServer地址，此处主要为了最小化代码量完成功能。</p>
-<h2 id=三开发日志>三、开发日志</h2>
-<ul>
-<li>1.apollo-quick-start PR 反馈</li>
-</ul>
-<blockquote>
-<p>今日宋老师又有反馈了，要把账号密码的环境变量都带上，并且密码要脱敏显示。也许我开发自己的代码太多了，做东西比较随意，我一度也以为这个项目也只是个
+</code></pre></div><p><img src=/pic/2021_10_04/gate_knife_doc.png alt></p><p><img src=/pic/2021_10_04/gate_knife_doc_definitions.png alt></p><h3 id=4总结>4.总结</h3><p>到这里在线文档聚合这个功能就已经完善了。其实还可以实现一个GlobalFilter去添加自定义header，并在swagger插件中对自定义header进行识别转换
+inferredServer地址，此处主要为了最小化代码量完成功能。</p><h2 id=三开发日志>三、开发日志</h2><ul><li>1.apollo-quick-start PR 反馈</li></ul><blockquote><p>今日宋老师又有反馈了，要把账号密码的环境变量都带上，并且密码要脱敏显示。也许我开发自己的代码太多了，做东西比较随意，我一度也以为这个项目也只是个
 用来测试的东西。接触下来感觉好像不是，要更认真地面对功能与产品设计，因为这些是一开始就应该能想到的。在apollo这样的项目里，用户非常多，也更应该
-认真来应对问题。也由于在这个上面改来改去调来调去的，导致自己jiuzhou项目开发进度变慢了。准备明天爆肝一下。</p>
-</blockquote>
-<ul>
-<li>2.hugo-theme-cleanwhite 反馈</li>
-</ul>
-<blockquote>
-<p>作者把 <em>谁在使用</em> 置顶到issue了，跑过去第一个登记了自己 😉 &lsquo;Glad to be helpful&rsquo;</p>
-</blockquote>
-<ul>
-<li>3.国庆过得好快</li>
-</ul>
-<blockquote>
-<p>也许是因为自己一直在写代码，感觉这几天过得好快，人总会有各种各样的事情缠着你。想要在有限的时间去做一些真正有意义的事情，工作这么多年，实际对社会
+认真来应对问题。也由于在这个上面改来改去调来调去的，导致自己jiuzhou项目开发进度变慢了。准备明天爆肝一下。</p></blockquote><ul><li>2.hugo-theme-cleanwhite 反馈</li></ul><blockquote><p>作者把 <em>谁在使用</em> 置顶到issue了，跑过去第一个登记了自己 😉 &lsquo;Glad to be helpful&rsquo;</p></blockquote><ul><li>3.国庆过得好快</li></ul><blockquote><p>也许是因为自己一直在写代码，感觉这几天过得好快，人总会有各种各样的事情缠着你。想要在有限的时间去做一些真正有意义的事情，工作这么多年，实际对社会
 有贡献，对人生有意义，对大家有价值的东西太少了。人活着不该只为了钱对吗？何况自己依旧孑然一身。问自己一个问题，这辈子做成了什么事情能让自己年老时
-不至于羞愤懊悔。我想，社会把你绑在车轮上，但你始终有选择的余地不是吗？也许不是世界太嘈杂，只是自己不够宁静致远。</p>
-</blockquote>
-<ul>
-<li>4.gateway开发体验好了</li>
-</ul>
-<blockquote>
-<p>早年尝试使用gateway开发的时候，自己云里雾里的。不知道是因为自己技术变强了还是gateway完善了。不过始终不够开箱即用啊，过几天研究下soul网关(ShenYu)
+不至于羞愤懊悔。我想，社会把你绑在车轮上，但你始终有选择的余地不是吗？也许不是世界太嘈杂，只是自己不够宁静致远。</p></blockquote><ul><li>4.gateway开发体验好了</li></ul><blockquote><p>早年尝试使用gateway开发的时候，自己云里雾里的。不知道是因为自己技术变强了还是gateway完善了。不过始终不够开箱即用啊，过几天研究下soul网关(ShenYu)
 看看能不能贡献些代码，一起做个开箱即用的产品出来。感慨这几年遇到的大神，xxl许雪里、discovery军哥、apollo宋顺、spring4all翟永超、dromara肖宇，
 有的有比较深入的接触，有的只是在线下见过，有的讨论过issue，有的只在群里聊过几句，甚至有些不愿意提及的渣人都没有列出来，所有人做成一个成功的项目，
 其社区宣传、影响力、作品产品完善程度与生产验证搜集bug驱动产品进步，无一不是把社区产品迭代做得比较好。一个好的产品要具有前瞻性、要足够完善、要bug
 少可验证，更重要的是，要有弥补空白的定位。如果定位与其他产品重叠，一定要有足够痛的点让人想完成迁移。apache社区号称社区大于产品，有人才能有产品，
 一个人做多久都不可能完成一个完善的产品，即便可以，那付出的精力不可能是在满足生活前提下完成的。要足够visionary，要足够responsible，更关心产品，
-更想要表达。</p>
-</blockquote>
-<ul>
-<li>5.springfox-oas 居然不支持 X-Forwarded-Prefix</li>
-</ul>
-<blockquote>
-<p>这个功能在早前swagger2.0的时候就已经支持了，在swagger3.0的webflux版本看着也是支持的，为什么在这个mvc版本不支持，有点令人疑惑，是不是也应该
-去提个issue来升级一下这个feature。</p>
-</blockquote>
-<blockquote>
-<p>去看了一下，现在springfox貌似是个印度人在维护，但是PR已经很久没有人合并了，不知道还能不能也不知道啥时候才会再release了，如果这老哥被新冠缠住了，
-那也太让人难过了。</p>
-</blockquote>
-<hr>
-<ul class=pager>
-<li class=previous>
-<a href=/2021/10/03/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/ data-toggle=tooltip data-placement=top title=七天构建SpringCloud集群>&larr;
-Previous Post</a>
-</li>
-<li class=next>
-<a href=/2021/10/05/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/ data-toggle=tooltip data-placement=top title=七天构建SpringCloud集群>Next
-Post &rarr;</a>
-</li>
-</ul>
-<div id=disqus-comment></div>
-</div>
-<div class="col-lg-2 col-lg-offset-0
+更想要表达。</p></blockquote><ul><li>5.springfox-oas 居然不支持 X-Forwarded-Prefix</li></ul><blockquote><p>这个功能在早前swagger2.0的时候就已经支持了，在swagger3.0的webflux版本看着也是支持的，为什么在这个mvc版本不支持，有点令人疑惑，是不是也应该
+去提个issue来升级一下这个feature。</p></blockquote><blockquote><p>去看了一下，现在springfox貌似是个印度人在维护，但是PR已经很久没有人合并了，不知道还能不能也不知道啥时候才会再release了，如果这老哥被新冠缠住了，
+那也太让人难过了。</p></blockquote><hr><ul class=pager><li class=previous><a href=/2021/10/03/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/ data-toggle=tooltip data-placement=top title=七天构建SpringCloud集群>&larr;
+Previous Post</a></li><li class=next><a href=/2021/10/05/%E4%B8%83%E5%A4%A9%E6%9E%84%E5%BB%BAspringcloud%E9%9B%86%E7%BE%A4/ data-toggle=tooltip data-placement=top title=七天构建SpringCloud集群>Next
+Post &rarr;</a></li></ul><div id=disqus-comment></div></div><div class="col-lg-2 col-lg-offset-0
 visible-lg-block
 sidebar-container
-catalog-container">
-<div class=side-catalog>
-<hr class="hidden-sm hidden-xs">
-<h5>
-<a class=catalog-toggle href=#>CATALOG</a>
-</h5>
-<ul class=catalog-body></ul>
-</div>
-</div>
-<div class="col-lg-11 col-lg-offset-1
+catalog-container"><div class=side-catalog><hr class="hidden-sm hidden-xs"><h5><a class=catalog-toggle href=#>CATALOG</a></h5><ul class=catalog-body></ul></div></div><div class="col-lg-11 col-lg-offset-1
 col-md-10 col-md-offset-1
-sidebar-container">
-<section>
-<hr class="hidden-sm hidden-xs">
-<h5><a href=/tags/>FEATURED TAGS</a></h5>
-<div class=tags>
-<a href=/tags/%E4%BC%A0%E5%A5%87 title=传奇>
-传奇
-</a>
-<a href=/tags/%E5%B9%B2%E8%B4%A7 title=干货>
-干货
-</a>
-<a href=/tags/%E6%84%9F%E6%82%9F title=感悟>
-感悟
-</a>
-<a href=/tags/%E6%95%99%E7%A8%8B title=教程>
-教程
-</a>
-<a href=/tags/%E9%97%B2%E8%B0%88 title=闲谈>
-闲谈
-</a>
-</div>
-</section>
-<section>
-<hr>
-<h5>FRIENDS</h5>
-<ul class=list-inline>
-<li><a target=_blank href=https://yloopdaed.icu/>yloopdaed的博客</a></li>
-</ul>
-</section>
-</div>
-</div>
-</div>
-</article>
-<footer>
-<div class=container>
-<div class=row>
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-<ul class="list-inline text-center">
-<li>
-<a href=mailto:yuebaix@outlook.com>
-<span class="fa-stack fa-lg">
-<i class="fas fa-circle fa-stack-2x"></i>
-<i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
-</span>
-</a>
-</li>
-<li>
-<a target=_blank href=https://github.com/yuebaix>
-<span class="fa-stack fa-lg">
-<i class="fas fa-circle fa-stack-2x"></i>
-<i class="fab fa-github fa-stack-1x fa-inverse"></i>
-</span>
-</a>
-</li>
-</ul>
-<p class="copyright text-muted">
-Copyright &copy; 月白 Yuebaix Blog 2021
-</p>
-</div>
-</div>
-</div>
-</footer>
-<script>function loadAsync(f,b){var c=document,d='script',a=c.createElement(d),e=c.getElementsByTagName(d)[0];a.src=f,b&&a.addEventListener('load',function(a){b(null,a)},!1),e.parentNode.insertBefore(a,e)}</script>
-<script>$('#tag_cloud').length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:'#bbbbee',end:'#0085a1'}},$('#tag_cloud a').tagcloud()})</script>
-<script>loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js",function(){var a=document.querySelector("nav");a&&FastClick.attach(a)})</script>
-<script type=text/javascript>function generateCatalog(a){_containerSelector='div.post-container';var h=$(_containerSelector),c,d,e,f,g,b;return c=h.find('h1,h2,h3,h4,h5,h6'),$(a).html(''),c.each(function(){d=$(this).prop('tagName').toLowerCase(),g="#"+$(this).prop('id'),e=$(this).text(),b=$('<a href="'+g+'" rel="nofollow">'+e+'</a>'),f=$('<li class="'+d+'_nav"></li>').append(b),$(a).append(f)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(a){a.preventDefault(),$('.side-catalog').toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$('.catalog-body').onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script>
-</body>
-</html>
+sidebar-container"><section><hr class="hidden-sm hidden-xs"><h5><a href=/tags/>FEATURED TAGS</a></h5><div class=tags><a href=/tags/%E4%BC%A0%E5%A5%87 title=传奇>传奇</a>
+<a href=/tags/%E5%B9%B2%E8%B4%A7 title=干货>干货</a>
+<a href=/tags/%E6%84%9F%E6%82%9F title=感悟>感悟</a>
+<a href=/tags/%E6%95%99%E7%A8%8B title=教程>教程</a>
+<a href=/tags/%E9%97%B2%E8%B0%88 title=闲谈>闲谈</a></div></section><section><hr><h5>FRIENDS</h5><ul class=list-inline><li><a target=_blank href=https://yloopdaed.icu/>yloopdaed的博客</a></li></ul></section></div></div></div></article><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center"><li><a href=mailto:yuebaix@outlook.com><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fas fa-envelope fa-stack-1x fa-inverse"></i></span></a></li><li><a target=_blank href=https://github.com/yuebaix><span class="fa-stack fa-lg"><i class="fas fa-circle fa-stack-2x"></i>
+<i class="fab fa-github fa-stack-1x fa-inverse"></i></span></a></li></ul><p class="copyright text-muted">Copyright &copy; 月白 Yuebaix Blog 2024</p></div></div></div></footer><script>function loadAsync(f,b){var c=document,d='script',a=c.createElement(d),e=c.getElementsByTagName(d)[0];a.src=f,b&&a.addEventListener('load',function(a){b(null,a)},!1),e.parentNode.insertBefore(a,e)}</script><script>$('#tag_cloud').length!==0&&loadAsync("/js/jquery.tagcloud.js",function(){$.fn.tagcloud.defaults={color:{start:'#bbbbee',end:'#0085a1'}},$('#tag_cloud a').tagcloud()})</script><script>loadAsync("https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.js",function(){var a=document.querySelector("nav");a&&FastClick.attach(a)})</script><script type=text/javascript>function generateCatalog(a){_containerSelector='div.post-container';var h=$(_containerSelector),c,d,e,f,g,b;return c=h.find('h1,h2,h3,h4,h5,h6'),$(a).html(''),c.each(function(){d=$(this).prop('tagName').toLowerCase(),g="#"+$(this).prop('id'),e=$(this).text(),b=$('<a href="'+g+'" rel="nofollow">'+e+'</a>'),f=$('<li class="'+d+'_nav"></li>').append(b),$(a).append(f)}),!0}generateCatalog(".catalog-body"),$(".catalog-toggle").click(function(a){a.preventDefault(),$('.side-catalog').toggleClass("fold")}),loadAsync("/js/jquery.nav.js",function(){$('.catalog-body').onePageNav({currentClass:"active",changeHash:!1,easing:"swing",filter:"",scrollSpeed:700,scrollOffset:0,scrollThreshold:.2,begin:null,end:null,scrollChange:null,padding:80})})</script></body></html>
